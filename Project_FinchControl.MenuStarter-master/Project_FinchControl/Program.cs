@@ -136,7 +136,7 @@ namespace Project_FinchControl
             finchRobot.noteOff();
             finchTemp = finchRobot.getTemperature();
             Console.WriteLine();
-            Console.WriteLine($"Temp Recorded by Finch: {finchTemp}");
+            Console.WriteLine($"Temp Recorded by Finch in Celsius: {finchTemp}/n2");
             Console.WriteLine();
             DisplayMenuPrompt("Main Menu");
 
