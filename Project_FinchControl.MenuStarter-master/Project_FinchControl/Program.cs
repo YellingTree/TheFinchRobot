@@ -250,6 +250,30 @@ namespace Project_FinchControl
 
             robotConnected = finchRobot.connect();
 
+            if (robotConnected == true)
+            {
+                finchRobot.setLED(255, 0, 0);
+                finchRobot.wait(500);
+                finchRobot.setLED(0, 0, 0);
+                finchRobot.wait(500);
+                finchRobot.setLED(255, 0, 0);
+                finchRobot.wait(500);
+                finchRobot.setLED(0, 0, 0);
+                finchRobot.wait(100);
+                finchRobot.setLED(0, 255, 0);
+                finchRobot.noteOn(165);
+                finchRobot.wait(200);
+                finchRobot.noteOff();
+                finchRobot.noteOn(784);
+                finchRobot.wait(200);
+                finchRobot.noteOff();
+                finchRobot.noteOn(73);
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+
+
+            }
+
             // TODO test connection and provide user feedback - text, lights, sounds
 
             DisplayMenuPrompt("Main Menu");
