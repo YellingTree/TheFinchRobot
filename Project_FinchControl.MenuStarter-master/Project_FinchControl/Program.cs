@@ -270,6 +270,8 @@ namespace Project_FinchControl
                 finchRobot.noteOn(73);
                 finchRobot.wait(300);
                 finchRobot.noteOff();
+                Console.WriteLine("Your Finch Robot has been connected!");
+                DisplayContinuePrompt();
 
 
             }
