@@ -138,7 +138,7 @@ namespace Project_FinchControl
             Console.WriteLine();
             Console.WriteLine($"Temp Recorded by Finch: {finchTemp}");
             Console.WriteLine();
-            DisplayContinuePrompt();
+            DisplayMenuPrompt("Main Menu");
 
 
         }
