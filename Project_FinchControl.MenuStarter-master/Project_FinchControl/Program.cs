@@ -207,7 +207,32 @@ namespace Project_FinchControl
 
         static void TalentShowDisplayDrivingAround(Finch finchRobot)
         {
+            DisplayScreenHeader("Driving Around");
+            Console.WriteLine();
+            Console.WriteLine("\tPlease set your Finch Robot on the ground as it will begin to move");
+            Console.WriteLine();
+            DisplayContinuePrompt();
 
+            // Warning user that finch is going to move
+            finchRobot.noteOn(262);
+            finchRobot.wait(300);
+            finchRobot.noteOff();
+            finchRobot.wait(200);
+            finchRobot.noteOn(262);
+            finchRobot.wait(300);
+            finchRobot.noteOff();
+            finchRobot.wait(200);
+            finchRobot.noteOn(262);
+            finchRobot.wait(1000);
+            finchRobot.noteOff();
+            finchRobot.wait(500);
+
+            //Moving finch around
+            finchRobot.setMotors(right: 255, left: 255);
+            finchRobot.wait(3000);
+            finchRobot.setMotors(right: 0, left: 0);
+
+            DisplayMenuPrompt("Main Menu");
         }
 
         /// <summary>
