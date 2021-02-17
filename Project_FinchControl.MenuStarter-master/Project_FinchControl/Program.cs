@@ -231,6 +231,10 @@ namespace Project_FinchControl
             finchRobot.setMotors(right: 255, left: 255);
             finchRobot.wait(3000);
             finchRobot.setMotors(right: 0, left: 0);
+            finchRobot.wait(500);
+            finchRobot.setMotors(left: -255, right: 255);
+            finchRobot.wait(500);
+            finchRobot.setMotors(left: 0, right: 0);
 
             DisplayMenuPrompt("Main Menu");
         }
