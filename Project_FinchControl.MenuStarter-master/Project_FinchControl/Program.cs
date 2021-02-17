@@ -86,7 +86,7 @@ namespace Project_FinchControl
                         break;
 
                     case "c":
-
+                        DisplayDataRecorderScreen(finchRobot);
                         break;
 
                     case "d":
@@ -117,6 +117,31 @@ namespace Project_FinchControl
         }
 
         #region TALENT SHOW
+
+        static void DisplayDataRecorderScreen(Finch finchRobot)
+        {
+            double finchTemp;
+            DisplayScreenHeader("Data Recording from Finch Sensors");
+            DisplayContinuePrompt();
+            Console.WriteLine();
+            Console.WriteLine("\tGetting data...");
+            finchRobot.noteOn(165);
+            finchRobot.wait(500);
+            finchRobot.noteOff();
+            finchRobot.noteOn(784);
+            finchRobot.wait(500);
+            finchRobot.noteOff();
+            finchRobot.noteOn(2489);
+            finchRobot.wait(500);
+            finchRobot.noteOff();
+            finchTemp = finchRobot.getTemperature();
+            Console.WriteLine();
+            Console.WriteLine($"Temp Recorded by Finch: {finchTemp}");
+            Console.WriteLine();
+            DisplayContinuePrompt();
+
+
+        }
 
         /// <summary>
         /// *****************************************************************
@@ -200,7 +225,8 @@ namespace Project_FinchControl
                 finchRobot.setLED(lightSoundLevel, lightSoundLevel, lightSoundLevel);
                 finchRobot.noteOn(lightSoundLevel * 100);
             }
-
+            finchRobot.wait(1000);
+            finchRobot.noteOff();
             DisplayMenuPrompt("Talent Show Menu");
         }
 
@@ -273,7 +299,6 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 Console.WriteLine("\tYour Finch Robot has been connected!");
                 Console.WriteLine();
-                DisplayContinuePrompt();
 
 
             }
