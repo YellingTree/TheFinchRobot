@@ -37,7 +37,7 @@ namespace Project_FinchControl
         /// </summary>
         static void SetTheme()
         {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.BackgroundColor = ConsoleColor.DarkGray;
         }
 
@@ -136,7 +136,7 @@ namespace Project_FinchControl
             finchRobot.noteOff();
             finchTemp = finchRobot.getTemperature();
             Console.WriteLine();
-            Console.WriteLine($"Temp Recorded by Finch in Celsius: {finchTemp}:n2");
+            Console.WriteLine($"Temp Recorded by Finch in Celsius: {finchTemp:n2}");
             Console.WriteLine();
             DisplayMenuPrompt("Main Menu");
 
