@@ -163,7 +163,7 @@ namespace Project_FinchControl
                 // get user menu choice
                 //
                 Console.WriteLine("\ta) Light and Sound");
-                Console.WriteLine("\tb) ");
+                Console.WriteLine("\tb) Driving Around");
                 Console.WriteLine("\tc) ");
                 Console.WriteLine("\td) ");
                 Console.WriteLine("\tq) Main Menu");
@@ -180,7 +180,7 @@ namespace Project_FinchControl
                         break;
 
                     case "b":
-
+                        TalentShowDisplayDrivingAround(finchRobot);
                         break;
 
                     case "c":
@@ -203,6 +203,11 @@ namespace Project_FinchControl
                 }
 
             } while (!quitTalentShowMenu);
+        }
+
+        static void TalentShowDisplayDrivingAround(Finch finchRobot)
+        {
+
         }
 
         /// <summary>
