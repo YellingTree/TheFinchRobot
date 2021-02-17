@@ -12,9 +12,8 @@ namespace Project_FinchControl
     // Description: Starter solution with the helper methods,
     //              opening and closing screens, and the menu
     // Application Type: Console
-    // Author: Velis, John
+    // Author: Havenga, Michael
     // Dated Created: 1/22/2020
-    // Last Modified: 1/25/2020
     //
     // **************************************************
 
@@ -38,8 +37,8 @@ namespace Project_FinchControl
         /// </summary>
         static void SetTheme()
         {
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.BackgroundColor = ConsoleColor.DarkGray;
         }
 
         /// <summary>
@@ -63,6 +62,7 @@ namespace Project_FinchControl
                 //
                 // get user menu choice
                 //
+
                 Console.WriteLine("\ta) Connect Finch Robot");
                 Console.WriteLine("\tb) Talent Show");
                 Console.WriteLine("\tc) Data Recorder");
@@ -71,8 +71,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\tf) Disconnect Finch Robot");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
-                menuChoice = Console.ReadLine().ToLower();
-
+                menuChoice = Console.ReadLine();
                 //
                 // process user menu choice
                 //
