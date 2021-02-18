@@ -290,7 +290,7 @@ namespace Project_FinchControl
                 objectLeft = finchRobot.isObstacleLeftSide();
                 objectRight = finchRobot.isObstacleRightSide();
 
-                if (!objectLeft || !objectRight)
+                if (!objectLeft ^ !objectRight)
                 {
                     finchRobot.setMotors(left: 255, right: 255);
                 }
@@ -298,6 +298,9 @@ namespace Project_FinchControl
                 {
                     if (objectLeft)
                     {
+                        Console.WriteLine();
+                        Console.WriteLine("Object detected on the left");
+                        Console.WriteLine();
                         finchRobot.setMotors(left: 0, right: 0);
                         finchRobot.wait(2000);
                         finchRobot.setMotors(left: 100, right: -100);
@@ -305,6 +308,9 @@ namespace Project_FinchControl
                     }
                     if (objectRight)
                     {
+                        Console.WriteLine();
+                        Console.WriteLine("Object detected on the right");
+                        Console.WriteLine();
                         finchRobot.setMotors(left: 0, right: 0);
                         finchRobot.wait(2000);
                         finchRobot.setMotors(left: -100, right: 100);
@@ -314,7 +320,7 @@ namespace Project_FinchControl
                 }
 
             } while (finchRobot.getYAcceleration() < 1);
-
+            finchRobot.setMotors(left: 0, right: 0);
             //Simply for testing object detection
             //do
             //{
