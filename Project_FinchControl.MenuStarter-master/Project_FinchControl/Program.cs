@@ -68,7 +68,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\tb) Talent Show");
                 Console.WriteLine("\tc) Data Recorder");
                 Console.WriteLine("\td) Alarm System");
-                Console.WriteLine("\te) User Programming");
+                Console.WriteLine("\te) Sensor Testing");
                 Console.WriteLine("\tf) Disconnect Finch Robot");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
@@ -365,7 +365,10 @@ namespace Project_FinchControl
         #endregion
 
         #region FINCH ROBOT MANAGEMENT
-
+        /// <summary>
+        /// Menu screen for Testing Sensors
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void DisplayUserProgramming(Finch finchRobot)
         {
             Console.CursorVisible = true;
@@ -375,16 +378,16 @@ namespace Project_FinchControl
 
             do
             {
-                DisplayScreenHeader("Useful Code Snippets");
+                DisplayScreenHeader("Sensor Testing Menu");
 
                 //
                 // get user menu choice
                 //
                 Console.WriteLine("\ta) Object Sensor Test");
                 Console.WriteLine("\tb) Accelerometer Test");
-                Console.WriteLine("\tc) ");
+                Console.WriteLine("\tc) Light Sensor Test");
                 Console.WriteLine("\td) ");
-                Console.WriteLine("\tq) Main Menu");
+                Console.WriteLine("\tq) Sensor Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
 
@@ -394,7 +397,7 @@ namespace Project_FinchControl
                 switch (menuChoice)
                 {
                     case "a":
-                        TestingArea(finchRobot);
+                        ObjectTesting(finchRobot);
                         break;
 
                     case "b":
@@ -402,7 +405,7 @@ namespace Project_FinchControl
                         break;
 
                     case "c":
-
+                        LightSensorTesting(finchRobot);
                         break;
 
                     case "d":
@@ -422,6 +425,35 @@ namespace Project_FinchControl
             } while (!quitUserProgramming);
 
         }
+
+        static void LightSensorTesting(Finch finchRobot)
+        {
+            DisplayScreenHeader("Light Sensor Testing");
+            Console.WriteLine();
+            Console.WriteLine("\tTesting the light sensors and outputting values");
+            Console.WriteLine();
+            Console.WriteLine("\tShake the finch robot side to side [wheel to wheel] to stop test.");
+            Console.WriteLine();
+            DisplayContinuePrompt();
+            int left;
+            int right;
+            do
+            {
+                left = finchRobot.getLeftLightSensor();
+                right = finchRobot.getRightLightSensor();
+                Console.WriteLine($"Left: {left}  |Right: {right}  ");
+            } while (finchRobot.getYAcceleration() < 1);
+
+            Console.WriteLine();
+            Console.WriteLine("Done with Light Sensor Test");
+            Console.WriteLine();
+            DisplayMenuPrompt("Sensor Menu");
+        }
+
+        /// <summary>
+        /// Dumping Data from Accelerometer sensor for testing.
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void AccelerometerTesting(Finch finchRobot)
         {
             DisplayScreenHeader("\tAccelerometer Testing");
@@ -439,13 +471,17 @@ namespace Project_FinchControl
                 X = finchRobot.getXAcceleration(); 
                 Y = finchRobot.getYAcceleration();
                 Z = finchRobot.getZAcceleration();
-                Console.WriteLine($"X:{X}     |Y:{Y}     |Z:{Z}     ");
+                Console.WriteLine($"X:{X:n3}|Y:{Y:n3}|Z:{Z:n3}");
             } while (!finchRobot.isObstacleLeftSide());
             Console.WriteLine();
             Console.WriteLine("Done with Sensor Test");
-            DisplayMenuPrompt("Code Snippets");
+            DisplayMenuPrompt("Sensor Menu");
         }
-        static void TestingArea(Finch finchRobot)
+        /// <summary>
+        /// Tests the IR sensors of the finch Robot
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
+        static void ObjectTesting(Finch finchRobot)
         {
             DisplayScreenHeader("\tThis will test the object detection sensors");
             Console.WriteLine();
@@ -492,7 +528,7 @@ namespace Project_FinchControl
             finchRobot.setLED(0, 0, 0);
             Console.WriteLine();
             Console.WriteLine("Done with Sensor Test");
-            DisplayMenuPrompt("Code Snippets");
+            DisplayMenuPrompt("Sensor Menu");
 
         }
 
