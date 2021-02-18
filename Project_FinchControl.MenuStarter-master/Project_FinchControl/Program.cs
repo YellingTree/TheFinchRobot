@@ -207,6 +207,7 @@ namespace Project_FinchControl
 
         static void TalentShowDisplaySmartDriving(Finch finchRobot)
         {
+            //
             bool objectLeft;
             bool objectRight;
 
@@ -229,6 +230,11 @@ namespace Project_FinchControl
             finchRobot.wait(1000);
             finchRobot.noteOff();
             finchRobot.wait(500);
+            //TODO Create loop for avoiding objects without stopping.
+            //PLAN: Drive forward. OBJECT!! Check left or right, turn opsite direction. Continue if clear, else perform 180. Continue.
+
+
+            //Simply for testing object detection
             do
             {
                 finchRobot.setMotors(left: 255, right: 255);
@@ -236,6 +242,9 @@ namespace Project_FinchControl
                 objectRight = finchRobot.isObstacleRightSide();
             } while (!objectLeft || !objectRight);
             finchRobot.setMotors(left: 0, right: 0);
+            Console.WriteLine();
+            Console.WriteLine("\tObject Detected! Stopping Finch");
+            DisplayMenuPrompt("Main Menu");
         }
 
         /// <summary>
@@ -349,20 +358,16 @@ namespace Project_FinchControl
 
             if (robotConnected == true)
             {
-                finchRobot.setLED(255, 0, 0);
-                finchRobot.wait(500);
                 finchRobot.setLED(0, 0, 0);
+                finchRobot.noteOff();
                 finchRobot.wait(500);
-                finchRobot.setLED(255, 0, 0);
-                finchRobot.wait(500);
-                finchRobot.setLED(0, 0, 0);
-                finchRobot.setLED(255, 0, 0);
-                finchRobot.wait(500);
-                finchRobot.setLED(0, 0, 0);
-                finchRobot.setLED(255, 0, 0);
-                finchRobot.wait(500);
-                finchRobot.setLED(0, 0, 0);
-                finchRobot.wait(100);
+                for (int blinks = 0; blinks < 3; blinks++)
+                {
+                    finchRobot.setLED(255, 0, 0);
+                    finchRobot.wait(600);
+                    finchRobot.setLED(0, 0, 0);
+                }
+                finchRobot.wait(400);
                 finchRobot.setLED(0, 255, 0);
                 finchRobot.noteOn(165);
                 finchRobot.wait(200);
@@ -370,7 +375,7 @@ namespace Project_FinchControl
                 finchRobot.noteOn(784);
                 finchRobot.wait(200);
                 finchRobot.noteOff();
-                finchRobot.noteOn(73);
+                finchRobot.noteOn(800);
                 finchRobot.wait(300);
                 finchRobot.noteOff();
                 Console.WriteLine();
@@ -379,10 +384,11 @@ namespace Project_FinchControl
             }
             else
             {
+                Console.WriteLine();
                 Console.WriteLine("\tUnable to connect to Finch Robot. Are you sure it's plugged in?");
+                Console.WriteLine();
             }
 
-            // TODO test connection and provide user feedback - text, lights, sounds
 
             DisplayMenuPrompt("Main Menu");
 
