@@ -211,7 +211,7 @@ namespace Project_FinchControl
             //
             bool objectLeft;
             bool objectRight;
-            bool[] ObjectSensor = new bool[1];  
+            bool[] ObjectSensor;  
 
 
             DisplayScreenHeader("Smart Driving");
@@ -239,7 +239,7 @@ namespace Project_FinchControl
             //TODO Create loop for avoiding objects without stopping.
             //PLAN: Drive forward. OBJECT!! Check left or right, turn opsite direction. Continue if clear, else perform 180. Continue.
             bool userInput = false;
-            Console.ReadKey(userInput);
+            //TODO Adding the ability for user to stop the finch without closing.
 
 
             do
@@ -402,9 +402,9 @@ namespace Project_FinchControl
                 for (int blinks = 0; blinks < 3; blinks++)
                 {
                     finchRobot.setLED(255, 0, 0);
-                    finchRobot.wait(1500);
+                    finchRobot.wait(500);
                     finchRobot.setLED(0, 0, 0);
-                    finchRobot.wait(1000);
+                    finchRobot.wait(500);
                 }
                 finchRobot.wait(400);
                 finchRobot.setLED(0, 255, 0);
