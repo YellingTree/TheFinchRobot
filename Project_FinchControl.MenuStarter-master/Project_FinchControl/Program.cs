@@ -254,19 +254,19 @@ namespace Project_FinchControl
                 }
                 else
                 {
-                    if (objectLeft)
-                    {
-                        finchRobot.setMotors(left: 0, right: 0);
-                        finchRobot.wait(2000);
-                        finchRobot.setMotors(left: 100, right: -100);
-                        finchRobot.wait(3000);
-                    }
+                    //if (objectLeft)
+                    //{
+                    //    finchRobot.setMotors(left: 0, right: 0);
+                    //    finchRobot.wait(2000);
+                    //    finchRobot.setMotors(left: 100, right: -100);
+                    //    finchRobot.wait(500);
+                    //}
                     if (objectRight)
                     {
                         finchRobot.setMotors(left: 0, right: 0);
                         finchRobot.wait(2000);
                         finchRobot.setMotors(left: -100, right: 100);
-                        finchRobot.wait(3000);
+                        finchRobot.wait(500);
 
                     }
                 }
