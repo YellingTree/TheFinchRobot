@@ -234,7 +234,7 @@ namespace Project_FinchControl
                 finchRobot.setMotors(left: 255, right: 255);
                 objectLeft = finchRobot.isObstacleLeftSide();
                 objectRight = finchRobot.isObstacleRightSide();
-            } while (!objectLeft || !objectRight);
+            } while (!objectLeft ^ !objectRight);
             finchRobot.setMotors(left: 0, right: 0);
         }
 
