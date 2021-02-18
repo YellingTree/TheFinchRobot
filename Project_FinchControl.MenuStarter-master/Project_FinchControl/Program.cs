@@ -387,7 +387,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\tb) Accelerometer Test");
                 Console.WriteLine("\tc) Light Sensor Test");
                 Console.WriteLine("\td) ");
-                Console.WriteLine("\tq) Sensor Menu");
+                Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
 
