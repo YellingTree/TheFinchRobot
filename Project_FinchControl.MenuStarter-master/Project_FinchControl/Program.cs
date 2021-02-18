@@ -381,7 +381,7 @@ namespace Project_FinchControl
                 // get user menu choice
                 //
                 Console.WriteLine("\ta) Object Sensor Test");
-                Console.WriteLine("\tb) ");
+                Console.WriteLine("\tb) Accelerometer Test");
                 Console.WriteLine("\tc) ");
                 Console.WriteLine("\td) ");
                 Console.WriteLine("\tq) Main Menu");
@@ -398,7 +398,7 @@ namespace Project_FinchControl
                         break;
 
                     case "b":
-
+                        AccelerometerTesting(finchRobot);
                         break;
 
                     case "c":
