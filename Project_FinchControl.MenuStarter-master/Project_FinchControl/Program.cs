@@ -290,12 +290,8 @@ namespace Project_FinchControl
                 objectLeft = finchRobot.isObstacleLeftSide();
                 objectRight = finchRobot.isObstacleRightSide();
 
-                if (!objectLeft ^ !objectRight)
-                {
-                    finchRobot.setMotors(left: 255, right: 255);
-                }
-                else
-                {
+                finchRobot.setMotors(left: 150,right: 150);
+                
                     if (objectLeft)
                     {
                         Console.WriteLine();
@@ -317,7 +313,7 @@ namespace Project_FinchControl
                         finchRobot.wait(500);
 
                     }
-                }
+                
 
             } while (finchRobot.getYAcceleration() < 1);
             finchRobot.setMotors(left: 0, right: 0);
