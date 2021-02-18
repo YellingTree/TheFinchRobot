@@ -164,7 +164,7 @@ namespace Project_FinchControl
                 //
                 Console.WriteLine("\ta) Light and Sound");
                 Console.WriteLine("\tb) Driving Around");
-                Console.WriteLine("\tc) ");
+                Console.WriteLine("\tc) Smart Driving");
                 Console.WriteLine("\td) ");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
@@ -184,7 +184,7 @@ namespace Project_FinchControl
                         break;
 
                     case "c":
-
+                        TalentShowDisplaySmartDriving(finchRobot);
                         break;
 
                     case "d":
@@ -205,6 +205,41 @@ namespace Project_FinchControl
             } while (!quitTalentShowMenu);
         }
 
+        static void TalentShowDisplaySmartDriving(Finch finchRobot)
+        {
+            bool objectLeft;
+            bool objectRight;
+            objectLeft = finchRobot.isObstacleLeftSide();
+            objectRight = finchRobot.isObstacleRightSide();
+            DisplayScreenHeader("Smart Driving");
+            Console.WriteLine();
+            Console.WriteLine("\tPlease place your Finch Robot onto the ground as it will begin to move.");
+            Console.WriteLine();
+            DisplayContinuePrompt();
+
+            // Warning user that finch is going to move
+            finchRobot.noteOn(262);
+            finchRobot.wait(300);
+            finchRobot.noteOff();
+            finchRobot.wait(200);
+            finchRobot.noteOn(262);
+            finchRobot.wait(300);
+            finchRobot.noteOff();
+            finchRobot.wait(200);
+            finchRobot.noteOn(262);
+            finchRobot.wait(1000);
+            finchRobot.noteOff();
+            finchRobot.wait(500);
+            do
+            {
+                finchRobot.setMotors(left: 255, right: 255);
+            } while (!objectLeft || !objectRight);
+        }
+
+        /// <summary>
+        /// show display driving around.
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void TalentShowDisplayDrivingAround(Finch finchRobot)
         {
             DisplayScreenHeader("Driving Around");
@@ -233,7 +268,7 @@ namespace Project_FinchControl
             finchRobot.setMotors(right: 0, left: 0);
             finchRobot.wait(500);
             finchRobot.setMotors(left: -255, right: 255);
-            finchRobot.wait(5000);
+            finchRobot.wait(2000);
             finchRobot.setMotors(left: 0, right: 0);
 
             DisplayMenuPrompt("Main Menu");
