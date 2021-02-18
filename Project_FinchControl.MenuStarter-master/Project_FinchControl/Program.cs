@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using FinchAPI;
+using System.Windows.Input;
 
 namespace Project_FinchControl
 {
@@ -210,6 +211,8 @@ namespace Project_FinchControl
             //
             bool objectLeft;
             bool objectRight;
+            bool[] ObjectSensor = new bool[1];  
+
 
             DisplayScreenHeader("Smart Driving");
             Console.WriteLine();
@@ -230,20 +233,55 @@ namespace Project_FinchControl
             finchRobot.wait(1000);
             finchRobot.noteOff();
             finchRobot.wait(500);
+            Console.WriteLine();
+            Console.WriteLine("\t!Finch is now moving, press any key to stop it.");
+            Console.WriteLine();
             //TODO Create loop for avoiding objects without stopping.
             //PLAN: Drive forward. OBJECT!! Check left or right, turn opsite direction. Continue if clear, else perform 180. Continue.
+            bool userInput = false;
+            Console.ReadKey(userInput);
 
 
-            //Simply for testing object detection
             do
             {
-                finchRobot.setMotors(left: 255, right: 255);
                 objectLeft = finchRobot.isObstacleLeftSide();
                 objectRight = finchRobot.isObstacleRightSide();
-            } while (!objectLeft || !objectRight);
-            finchRobot.setMotors(left: 0, right: 0);
-            Console.WriteLine();
-            Console.WriteLine("\tObject Detected! Stopping Finch");
+                ObjectSensor = finchRobot.getObstacleSensors();
+
+                if (!ObjectSensor[0] || ObjectSensor[1])
+                {
+                    finchRobot.setMotors(left: 255, right: 255);
+                }
+                else
+                {
+                    if (objectLeft)
+                    {
+                        finchRobot.setMotors(left: 0, right: 0);
+                        finchRobot.wait(2000);
+                        finchRobot.setMotors(left: 100, right: -100);
+                        finchRobot.wait(3000);
+                    }
+                    if (objectRight)
+                    {
+                        finchRobot.setMotors(left: 0, right: 0);
+                        finchRobot.wait(2000);
+                        finchRobot.setMotors(left: -100, right: 100);
+                        finchRobot.wait(3000);
+
+                    }
+                }
+
+            } while (!userInput);
+
+            //Simply for testing object detection
+            //do
+            //{
+            //    finchRobot.setMotors(left: 255, right: 255);
+
+            //} while (!objectLeft || !objectRight);
+            //finchRobot.setMotors(left: 0, right: 0);
+            //Console.WriteLine();
+            //Console.WriteLine("\tObject Detected! Stopping Finch");
             DisplayMenuPrompt("Main Menu");
         }
 
@@ -366,6 +404,7 @@ namespace Project_FinchControl
                     finchRobot.setLED(255, 0, 0);
                     finchRobot.wait(1500);
                     finchRobot.setLED(0, 0, 0);
+                    finchRobot.wait(1000);
                 }
                 finchRobot.wait(400);
                 finchRobot.setLED(0, 255, 0);
@@ -375,7 +414,7 @@ namespace Project_FinchControl
                 finchRobot.noteOn(784);
                 finchRobot.wait(200);
                 finchRobot.noteOff();
-                finchRobot.noteOn(800);
+                finchRobot.noteOn(4500);
                 finchRobot.wait(300);
                 finchRobot.noteOff();
                 Console.WriteLine();
@@ -391,7 +430,6 @@ namespace Project_FinchControl
 
 
             DisplayMenuPrompt("Main Menu");
-
             //
             // reset finch robot
             //
@@ -404,6 +442,7 @@ namespace Project_FinchControl
         #endregion
 
         #region USER INTERFACE
+
 
         /// <summary>
         /// *****************************************************************
@@ -471,5 +510,8 @@ namespace Project_FinchControl
         }
 
         #endregion
+
+
+
     }
 }
