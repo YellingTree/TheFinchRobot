@@ -364,7 +364,7 @@ namespace Project_FinchControl
                 for (int blinks = 0; blinks < 3; blinks++)
                 {
                     finchRobot.setLED(255, 0, 0);
-                    finchRobot.wait(600);
+                    finchRobot.wait(1500);
                     finchRobot.setLED(0, 0, 0);
                 }
                 finchRobot.wait(400);
