@@ -229,56 +229,6 @@ namespace Project_FinchControl
             } while (!quitTalentShowMenu);
         }
 
-        static void TestingArea(Finch finchRobot)
-        {
-            DisplayScreenHeader("\tThis will test the object detection sensors");
-            Console.WriteLine();
-            Console.WriteLine("\tThe first sensor test is on the left object sensor");
-            Console.WriteLine();
-            Console.WriteLine("To end the test shake the finch robot side to side [wheel to wheel]");
-            Console.WriteLine();
-            DisplayContinuePrompt();
-            Console.Clear();
-
-            do
-            {
-                if (finchRobot.isObstacleRightSide())
-                {
-                    finchRobot.setLED(0, 255, 0);
-                    Console.WriteLine("!! Detected Right Side !!");
-                }
-                else
-                {
-                    finchRobot.setLED(255, 0, 0);
-                    Console.WriteLine("Not Detecting on Right");
-                }
-            } while (finchRobot.getYAcceleration() < 1);
-            finchRobot.setLED(0, 0, 0);
-            Console.WriteLine("\tDone with Right Sensor");
-            Console.WriteLine();
-            Console.WriteLine("\tNext Sensor is the Left");
-            Console.WriteLine();
-            Console.WriteLine("To end the test shake the finch front to back. [tail to beak]");
-            DisplayContinuePrompt();
-            do
-            {
-                if (finchRobot.isObstacleLeftSide())
-                {
-                    finchRobot.setLED(0, 255, 0);
-                    Console.WriteLine("!! Detected Left Side !!");
-                }
-                else
-                {
-                    finchRobot.setLED(255, 0, 0);
-                    Console.WriteLine("Not Detecting on Left");
-                }
-            } while (finchRobot.getXAcceleration() < 1);
-            finchRobot.setLED(0, 0, 0);
-            Console.WriteLine();
-            Console.WriteLine("Done with Sensor Test");
-            DisplayMenuPrompt("Main Menu");
-
-        }
 
         static void TalentShowDisplaySmartDriving(Finch finchRobot)
         {
@@ -470,6 +420,79 @@ namespace Project_FinchControl
                 }
 
             } while (!quitUserProgramming);
+
+        }
+        static void AccelerometerTesting(Finch finchRobot)
+        {
+            DisplayScreenHeader("\tAccelerometer Testing");
+            Console.WriteLine();
+            Console.WriteLine("\tOutputs Finch Acceleromerter data in X, Y, Z planes");
+            Console.WriteLine();
+            Console.WriteLine("Cover the Finch Object sensors to stop the recording");
+            Console.WriteLine();
+            DisplayContinuePrompt();
+            double X;
+            double Y;
+            double Z;
+            do
+            {
+                X = finchRobot.getXAcceleration(); 
+                Y = finchRobot.getYAcceleration();
+                Z = finchRobot.getZAcceleration();
+                Console.WriteLine($"X:{X}     |Y:{Y}     |Z:{Z}     ");
+            } while (!finchRobot.isObstacleLeftSide());
+            Console.WriteLine();
+            Console.WriteLine("Done with Sensor Test");
+            DisplayMenuPrompt("Code Snippets");
+        }
+        static void TestingArea(Finch finchRobot)
+        {
+            DisplayScreenHeader("\tThis will test the object detection sensors");
+            Console.WriteLine();
+            Console.WriteLine("\tThe first sensor test is on the left object sensor");
+            Console.WriteLine();
+            Console.WriteLine("To end the test shake the finch robot side to side [wheel to wheel]");
+            Console.WriteLine();
+            DisplayContinuePrompt();
+            Console.Clear();
+
+            do
+            {
+                if (finchRobot.isObstacleRightSide())
+                {
+                    finchRobot.setLED(0, 255, 0);
+                    Console.WriteLine("!! Detected Right Side !!");
+                }
+                else
+                {
+                    finchRobot.setLED(255, 0, 0);
+                    Console.WriteLine("Not Detecting on Right");
+                }
+            } while (finchRobot.getYAcceleration() < 1);
+            finchRobot.setLED(0, 0, 0);
+            Console.WriteLine("\tDone with Right Sensor");
+            Console.WriteLine();
+            Console.WriteLine("\tNext Sensor is the Left");
+            Console.WriteLine();
+            Console.WriteLine("To end the test shake the finch front to back. [tail to beak]");
+            DisplayContinuePrompt();
+            do
+            {
+                if (finchRobot.isObstacleLeftSide())
+                {
+                    finchRobot.setLED(0, 255, 0);
+                    Console.WriteLine("!! Detected Left Side !!");
+                }
+                else
+                {
+                    finchRobot.setLED(255, 0, 0);
+                    Console.WriteLine("Not Detecting on Left");
+                }
+            } while (finchRobot.getXAcceleration() < 1);
+            finchRobot.setLED(0, 0, 0);
+            Console.WriteLine();
+            Console.WriteLine("Done with Sensor Test");
+            DisplayMenuPrompt("Code Snippets");
 
         }
 
