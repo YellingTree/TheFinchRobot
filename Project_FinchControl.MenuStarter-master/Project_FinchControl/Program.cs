@@ -209,8 +209,7 @@ namespace Project_FinchControl
         {
             bool objectLeft;
             bool objectRight;
-            objectLeft = finchRobot.isObstacleLeftSide();
-            objectRight = finchRobot.isObstacleRightSide();
+
             DisplayScreenHeader("Smart Driving");
             Console.WriteLine();
             Console.WriteLine("\tPlease place your Finch Robot onto the ground as it will begin to move.");
@@ -233,6 +232,8 @@ namespace Project_FinchControl
             do
             {
                 finchRobot.setMotors(left: 255, right: 255);
+                objectLeft = finchRobot.isObstacleLeftSide();
+                objectRight = finchRobot.isObstacleRightSide();
             } while (!objectLeft || !objectRight);
         }
 
@@ -354,6 +355,12 @@ namespace Project_FinchControl
                 finchRobot.setLED(255, 0, 0);
                 finchRobot.wait(500);
                 finchRobot.setLED(0, 0, 0);
+                finchRobot.setLED(255, 0, 0);
+                finchRobot.wait(500);
+                finchRobot.setLED(0, 0, 0);
+                finchRobot.setLED(255, 0, 0);
+                finchRobot.wait(500);
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.wait(100);
                 finchRobot.setLED(0, 255, 0);
                 finchRobot.noteOn(165);
@@ -368,8 +375,10 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 Console.WriteLine("\tYour Finch Robot has been connected!");
                 Console.WriteLine();
-
-
+            }
+            else
+            {
+                Console.WriteLine("\tUnable to connect to Finch Robot. Are you sure it's plugged in?");
             }
 
             // TODO test connection and provide user feedback - text, lights, sounds
