@@ -72,7 +72,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\tf) Disconnect Finch Robot");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
-                menuChoice = Console.ReadLine();
+                menuChoice = Console.ReadLine().ToLower();
                 //
                 // process user menu choice
                 //
@@ -95,7 +95,7 @@ namespace Project_FinchControl
                         break;
 
                     case "e":
-
+                        DisplayUserProgramming(finchRobot);
                         break;
 
                     case "f":
@@ -116,6 +116,29 @@ namespace Project_FinchControl
 
             } while (!quitApplication);
         }
+
+        #region SMALL METHODS
+        /// <summary>
+        /// Displays a tone to warn the user
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
+        static void WarningBeep(Finch finchRobot) 
+        {
+            finchRobot.noteOn(262);
+            finchRobot.wait(300);
+            finchRobot.noteOff();
+            finchRobot.wait(200);
+            finchRobot.noteOn(262);
+            finchRobot.wait(300);
+            finchRobot.noteOff();
+            finchRobot.wait(200);
+            finchRobot.noteOn(262);
+            finchRobot.wait(1000);
+            finchRobot.noteOff();
+            finchRobot.wait(500);
+        }
+
+        #endregion
 
         #region TALENT SHOW
 
@@ -149,6 +172,7 @@ namespace Project_FinchControl
         /// *                     Talent Show Menu                          *
         /// *****************************************************************
         /// </summary>
+
         static void TalentShowDisplayMenuScreen(Finch finchRobot)
         {
             Console.CursorVisible = true;
@@ -166,7 +190,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\ta) Light and Sound");
                 Console.WriteLine("\tb) Driving Around");
                 Console.WriteLine("\tc) Smart Driving");
-                Console.WriteLine("\td) Testing Area");
+                Console.WriteLine("\td) ");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -189,7 +213,6 @@ namespace Project_FinchControl
                         break;
 
                     case "d":
-                        TestingArea(finchRobot);
                         break;
 
                     case "q":
@@ -208,45 +231,51 @@ namespace Project_FinchControl
 
         static void TestingArea(Finch finchRobot)
         {
-            DisplayScreenHeader("This area is for debugging issues on the Finch Robot and to check all sensors");
+            DisplayScreenHeader("\tThis will test the object detection sensors");
             Console.WriteLine();
+            Console.WriteLine("\tThe first sensor test is on the left object sensor");
+            Console.WriteLine();
+            Console.WriteLine("To end the test shake the finch robot side to side [wheel to wheel]");
             Console.WriteLine();
             DisplayContinuePrompt();
             Console.Clear();
-            Console.WriteLine();
-            Console.WriteLine("Testing Object sensors");
-            Console.WriteLine();
-            Console.WriteLine("Right Sensor");
+
             do
             {
                 if (finchRobot.isObstacleRightSide())
                 {
                     finchRobot.setLED(0, 255, 0);
-                    Console.WriteLine("Detected Right Side");
+                    Console.WriteLine("!! Detected Right Side !!");
                 }
                 else
                 {
                     finchRobot.setLED(255, 0, 0);
-                    Console.WriteLine("Not Detecting");
+                    Console.WriteLine("Not Detecting on Right");
                 }
             } while (finchRobot.getYAcceleration() < 1);
             finchRobot.setLED(0, 0, 0);
+            Console.WriteLine("\tDone with Right Sensor");
             Console.WriteLine();
-            Console.WriteLine("Left Sensor");
+            Console.WriteLine("\tNext Sensor is the Left");
+            Console.WriteLine();
+            Console.WriteLine("To end the test shake the finch front to back. [tail to beak]");
+            DisplayContinuePrompt();
             do
             {
                 if (finchRobot.isObstacleLeftSide())
                 {
                     finchRobot.setLED(0, 255, 0);
-                    Console.WriteLine("Detected left Side");
+                    Console.WriteLine("!! Detected Left Side !!");
                 }
                 else
                 {
                     finchRobot.setLED(255, 0, 0);
-                    Console.WriteLine("Not Detecting");
+                    Console.WriteLine("Not Detecting on Left");
                 }
-            } while (finchRobot.getYAcceleration() < 1);
+            } while (finchRobot.getXAcceleration() < 1);
             finchRobot.setLED(0, 0, 0);
+            Console.WriteLine();
+            Console.WriteLine("Done with Sensor Test");
             DisplayMenuPrompt("Main Menu");
 
         }
@@ -260,23 +289,14 @@ namespace Project_FinchControl
 
             DisplayScreenHeader("Smart Driving");
             Console.WriteLine();
+            Console.WriteLine("\tThe Finch will forward until it detects an object blocking it's path.");
+            Console.WriteLine();
             Console.WriteLine("\tPlease place your Finch Robot onto the ground as it will begin to move.");
             Console.WriteLine();
             DisplayContinuePrompt();
 
             // Warning user that finch is going to move
-            finchRobot.noteOn(262);
-            finchRobot.wait(300);
-            finchRobot.noteOff();
-            finchRobot.wait(200);
-            finchRobot.noteOn(262);
-            finchRobot.wait(300);
-            finchRobot.noteOff();
-            finchRobot.wait(200);
-            finchRobot.noteOn(262);
-            finchRobot.wait(1000);
-            finchRobot.noteOff();
-            finchRobot.wait(500);
+            WarningBeep(finchRobot);
             Console.WriteLine();
             Console.WriteLine("\t!Finch is now moving! You can shake the finch to stop it.");
             Console.WriteLine();
@@ -395,6 +415,63 @@ namespace Project_FinchControl
         #endregion
 
         #region FINCH ROBOT MANAGEMENT
+
+        static void DisplayUserProgramming(Finch finchRobot)
+        {
+            Console.CursorVisible = true;
+
+            bool quitUserProgramming = false;
+            string menuChoice;
+
+            do
+            {
+                DisplayScreenHeader("Useful Code Snippets");
+
+                //
+                // get user menu choice
+                //
+                Console.WriteLine("\ta) Object Sensor Test");
+                Console.WriteLine("\tb) ");
+                Console.WriteLine("\tc) ");
+                Console.WriteLine("\td) ");
+                Console.WriteLine("\tq) Main Menu");
+                Console.Write("\t\tEnter Choice:");
+                menuChoice = Console.ReadLine().ToLower();
+
+                //
+                // process user menu choice
+                //
+                switch (menuChoice)
+                {
+                    case "a":
+                        TestingArea(finchRobot);
+                        break;
+
+                    case "b":
+
+                        break;
+
+                    case "c":
+
+                        break;
+
+                    case "d":
+                        break;
+
+                    case "q":
+                        quitUserProgramming = true;
+                        break;
+
+                    default:
+                        Console.WriteLine();
+                        Console.WriteLine("\tPlease enter a letter for the menu choice.");
+                        DisplayContinuePrompt();
+                        break;
+                }
+
+            } while (!quitUserProgramming);
+
+        }
 
         /// <summary>
         /// *****************************************************************
