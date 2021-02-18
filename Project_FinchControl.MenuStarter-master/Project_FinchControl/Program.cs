@@ -256,7 +256,6 @@ namespace Project_FinchControl
             //
             bool objectLeft;
             bool objectRight;
-            bool[] ObjectSensor;  
 
 
             DisplayScreenHeader("Smart Driving");
@@ -279,11 +278,10 @@ namespace Project_FinchControl
             finchRobot.noteOff();
             finchRobot.wait(500);
             Console.WriteLine();
-            Console.WriteLine("\t!Finch is now moving, press any key to stop it.");
+            Console.WriteLine("\t!Finch is now moving! You can shake the finch to stop it.");
             Console.WriteLine();
             //TODO Create loop for avoiding objects without stopping.
             //PLAN: Drive forward. OBJECT!! Check left or right, turn opsite direction. Continue if clear, else perform 180. Continue.
-            bool userInput = false;
             //TODO Adding the ability for user to stop the finch without closing.
 
 
@@ -291,21 +289,20 @@ namespace Project_FinchControl
             {
                 objectLeft = finchRobot.isObstacleLeftSide();
                 objectRight = finchRobot.isObstacleRightSide();
-                ObjectSensor = finchRobot.getObstacleSensors();
 
-                if (!ObjectSensor[0] || ObjectSensor[1])
+                if (!objectLeft || !objectRight)
                 {
                     finchRobot.setMotors(left: 255, right: 255);
                 }
                 else
                 {
-                    //if (objectLeft)
-                    //{
-                    //    finchRobot.setMotors(left: 0, right: 0);
-                    //    finchRobot.wait(2000);
-                    //    finchRobot.setMotors(left: 100, right: -100);
-                    //    finchRobot.wait(500);
-                    //}
+                    if (objectLeft)
+                    {
+                        finchRobot.setMotors(left: 0, right: 0);
+                        finchRobot.wait(2000);
+                        finchRobot.setMotors(left: 100, right: -100);
+                        finchRobot.wait(500);
+                    }
                     if (objectRight)
                     {
                         finchRobot.setMotors(left: 0, right: 0);
@@ -316,7 +313,7 @@ namespace Project_FinchControl
                     }
                 }
 
-            } while (!userInput);
+            } while (finchRobot.getYAcceleration() < 1);
 
             //Simply for testing object detection
             //do
