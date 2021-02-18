@@ -166,7 +166,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\ta) Light and Sound");
                 Console.WriteLine("\tb) Driving Around");
                 Console.WriteLine("\tc) Smart Driving");
-                Console.WriteLine("\td) ");
+                Console.WriteLine("\td) Testing Area");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -189,7 +189,7 @@ namespace Project_FinchControl
                         break;
 
                     case "d":
-
+                        TestingArea(finchRobot);
                         break;
 
                     case "q":
@@ -204,6 +204,51 @@ namespace Project_FinchControl
                 }
 
             } while (!quitTalentShowMenu);
+        }
+
+        static void TestingArea(Finch finchRobot)
+        {
+            DisplayScreenHeader("This area is for debugging issues on the Finch Robot and to check all sensors");
+            Console.WriteLine();
+            Console.WriteLine();
+            DisplayContinuePrompt();
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("Testing Object sensors");
+            Console.WriteLine();
+            Console.WriteLine("Right Sensor");
+            do
+            {
+                if (finchRobot.isObstacleRightSide())
+                {
+                    finchRobot.setLED(0, 255, 0);
+                    Console.WriteLine("Detected Right Side");
+                }
+                else
+                {
+                    finchRobot.setLED(255, 0, 0);
+                    Console.WriteLine("Not Detecting");
+                }
+            } while (finchRobot.getYAcceleration() < 1);
+            finchRobot.setLED(0, 0, 0);
+            Console.WriteLine();
+            Console.WriteLine("Left Sensor");
+            do
+            {
+                if (finchRobot.isObstacleLeftSide())
+                {
+                    finchRobot.setLED(0, 255, 0);
+                    Console.WriteLine("Detected left Side");
+                }
+                else
+                {
+                    finchRobot.setLED(255, 0, 0);
+                    Console.WriteLine("Not Detecting");
+                }
+            } while (finchRobot.getYAcceleration() < 1);
+            finchRobot.setLED(0, 0, 0);
+            DisplayMenuPrompt("Main Menu");
+
         }
 
         static void TalentShowDisplaySmartDriving(Finch finchRobot)
