@@ -234,7 +234,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\td) ");
                 Console.WriteLine("\te) Smart Driving");
                 Console.WriteLine("\tf) Driving Around");
-                Console.WriteLine("\tg) Manual Driving");
+                Console.WriteLine("\tg) ");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -248,7 +248,7 @@ namespace Project_FinchControl
                         break;
 
                     case "b":
-
+                        TalentShowDisplayDance(finchRobot);
                         break;
 
                     case "c":
@@ -271,7 +271,7 @@ namespace Project_FinchControl
                         break;
 
                     case "g":
-                        TalentShowDisplayManualDrivng(finchRobot);
+                       // TalentShowDisplayManualDrivng(finchRobot);
                         break;
 
                     default:
@@ -283,6 +283,44 @@ namespace Project_FinchControl
             } while (!quitTalentShowMenu);
         }
 
+        static void TalentShowDisplayDance(Finch finchRobot)
+        {
+            RestFinch(finchRobot);
+            DisplayScreenHeader("Dancing Finch");
+            Console.WriteLine();
+            Console.WriteLine("The finch will do a little dance.");
+            Console.WriteLine();
+            DisplayContinuePrompt();
+            WarningBeep(finchRobot);
+            for (int i = 0; i < 1; i++)
+            {
+                finchRobot.setMotors(255, 255);
+                finchRobot.wait(500);
+                finchRobot.setMotors(-255, 255);
+                finchRobot.wait(300);
+                finchRobot.setMotors(-255, 0);
+                finchRobot.wait(200);
+                finchRobot.setMotors(0, -255);
+                finchRobot.wait(200);
+                finchRobot.setMotors(255, -255);
+                finchRobot.wait(300);
+            }
+            finchRobot.setMotors(0, 255);
+            finchRobot.wait(600);
+            RestFinch(finchRobot);
+            finchRobot.noteOn(246);
+            finchRobot.wait(500);
+            finchRobot.noteOn(311);
+            finchRobot.wait(1000);
+            RestFinch(finchRobot);
+            DisplayMenuPrompt("Talent Show Menu");
+            
+        }
+
+        /// <summary>
+        /// Allows the user to manually drive the finch robot.
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void TalentShowDisplayManualDrivng(Finch finchRobot)
         {
             DisplayScreenHeader("Manual Drivng");
