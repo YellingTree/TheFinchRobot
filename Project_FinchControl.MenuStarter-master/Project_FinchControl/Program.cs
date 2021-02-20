@@ -358,22 +358,58 @@ namespace Project_FinchControl
 
             DisplayScreenHeader("Light and Sound");
 
-            Console.WriteLine("\tThe Finch robot will not show off its glowing talent!");
+            Console.WriteLine("\tThe Finch robot will play a tune and light up.");
             DisplayContinuePrompt();
             for (int i = 0; i < 4; i++)
             {
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOn(495);
                 finchRobot.wait(300);
+                finchRobot.setLED(0, 255, 0);
                 finchRobot.noteOn(463);
                 finchRobot.wait(300);
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOff();
                 finchRobot.noteOn(366);
+                finchRobot.setLED(255, 0, 0);
+                finchRobot.wait(300);
+                finchRobot.setLED(0, 0, 0);
+                finchRobot.noteOff();
+                finchRobot.noteOn(310);
+                finchRobot.setLED(0, 0, 255);
+                finchRobot.wait(300);
+            }
+            finchRobot.setLED(0, 0, 0);
+            finchRobot.noteOff();
+            for (int i = 0; i < 3; i++)
+            {
+                finchRobot.noteOn(328);
                 finchRobot.wait(300);
                 finchRobot.noteOff();
                 finchRobot.noteOn(310);
                 finchRobot.wait(300);
-            }
+                finchRobot.noteOff();
+                finchRobot.noteOn(328);
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+                finchRobot.noteOn(248);
 
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+                finchRobot.noteOn(328);
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+                finchRobot.noteOn(310);
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+                finchRobot.noteOn(328);
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+                finchRobot.noteOn(248);
+                finchRobot.wait(300);
+
+
+            }
 
 
             //for (int lightSoundLevel = 0; lightSoundLevel < 255; lightSoundLevel++)
