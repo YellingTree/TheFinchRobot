@@ -292,7 +292,7 @@ namespace Project_FinchControl
             Console.WriteLine();
             DisplayContinuePrompt();
             WarningBeep(finchRobot);
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 3; i++)
             {
                 finchRobot.setMotors(255, 255);
                 finchRobot.wait(500);
