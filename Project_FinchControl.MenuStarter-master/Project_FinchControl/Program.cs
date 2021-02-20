@@ -620,9 +620,11 @@ namespace Project_FinchControl
                     {
                         Console.WriteLine("Detecting Right");
                     }
-
                 }
-                Console.WriteLine("All Clear");
+                else
+                {
+                    Console.WriteLine("All Clear");
+                }
 
             } while (finchRobot.getYAcceleration() < 1);
 
