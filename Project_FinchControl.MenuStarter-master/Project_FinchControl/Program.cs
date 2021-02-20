@@ -10,8 +10,7 @@ namespace Project_FinchControl
     // **************************************************
     //
     // Title: Finch Control - Menu Starter
-    // Description: Starter solution with the helper methods,
-    //              opening and closing screens, and the menu
+    // Description: An application to control the finch robot
     // Application Type: Console
     // Author: Havenga, Michael
     // Dated Created: 1/22/2020
@@ -32,16 +31,6 @@ namespace Project_FinchControl
             DisplayMenuScreen();
             DisplayClosingScreen();
         }
-
-        /// <summary>
-        /// setup the console theme
-        /// </summary>
-        static void SetTheme()
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-        }
-
         /// <summary>
         /// *****************************************************************
         /// *                     Main Menu                                 *
@@ -117,6 +106,7 @@ namespace Project_FinchControl
             } while (!quitApplication);
         }
 
+
         #region SMALL METHODS
         /// <summary>
         /// Displays a tone to warn the user
@@ -137,11 +127,14 @@ namespace Project_FinchControl
             finchRobot.noteOff();
             finchRobot.wait(500);
         }
-
         #endregion
 
-        #region TALENT SHOW
 
+        #region TALENT SHOW
+        /// <summary>
+        /// Records the temp from the finch robot and displays it to the user.
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void DisplayDataRecorderScreen(Finch finchRobot)
         {
             double finchTemp;
@@ -149,6 +142,9 @@ namespace Project_FinchControl
             DisplayContinuePrompt();
             Console.WriteLine();
             Console.WriteLine("\tGetting data...");
+            //
+            //Indicating the finch is doing something.
+            //
             finchRobot.noteOn(165);
             finchRobot.wait(500);
             finchRobot.noteOff();
@@ -158,13 +154,14 @@ namespace Project_FinchControl
             finchRobot.noteOn(2489);
             finchRobot.wait(500);
             finchRobot.noteOff();
+            //
+            //Recording temp
+            //
             finchTemp = finchRobot.getTemperature();
             Console.WriteLine();
             Console.WriteLine($"Temp Recorded by Finch in Celsius: {finchTemp:n2}");
             Console.WriteLine();
             DisplayMenuPrompt("Main Menu");
-
-
         }
 
         /// <summary>
@@ -172,7 +169,6 @@ namespace Project_FinchControl
         /// *                     Talent Show Menu                          *
         /// *****************************************************************
         /// </summary>
-
         static void TalentShowDisplayMenuScreen(Finch finchRobot)
         {
             Console.CursorVisible = true;
@@ -196,7 +192,6 @@ namespace Project_FinchControl
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
-
                 //
                 // process user menu choice
                 //
@@ -234,11 +229,13 @@ namespace Project_FinchControl
                         DisplayContinuePrompt();
                         break;
                 }
-
             } while (!quitTalentShowMenu);
         }
 
-
+        /// <summary>
+        /// Displays the smart driving loop screen.
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void TalentShowDisplaySmartDriving(Finch finchRobot)
         {
             //
@@ -257,7 +254,8 @@ namespace Project_FinchControl
             // Warning user that finch is going to move
             WarningBeep(finchRobot);
             Console.WriteLine();
-            Console.WriteLine("\t!Finch is now moving! You can shake the finch to stop it.");
+            Console.WriteLine("\t!Finch is now moving! You can shake the finch to stop it. [wheel to wheel]");
+            Console.WriteLine("\tThe finch will keep moving until it is shaked.");
             Console.WriteLine();
             //TODO Create loop for avoiding objects without stopping.
             //PLAN: Drive forward. OBJECT!! Check left or right, turn opsite direction. Continue if clear, else perform 180. Continue.
@@ -266,11 +264,16 @@ namespace Project_FinchControl
 
             do
             {
+                //
+                // Checks the sensors each loop
+                //
                 objectLeft = finchRobot.isObstacleLeftSide();
                 objectRight = finchRobot.isObstacleRightSide();
 
                 finchRobot.setMotors(left: 150,right: 150);
-                
+                    //
+                    //Actions for when an object is detected.
+                    //
                     if (objectLeft)
                     {
                         Console.WriteLine();
@@ -296,15 +299,6 @@ namespace Project_FinchControl
 
             } while (finchRobot.getYAcceleration() < 1);
             finchRobot.setMotors(left: 0, right: 0);
-            //Simply for testing object detection
-            //do
-            //{
-            //    finchRobot.setMotors(left: 255, right: 255);
-
-            //} while (!objectLeft || !objectRight);
-            //finchRobot.setMotors(left: 0, right: 0);
-            //Console.WriteLine();
-            //Console.WriteLine("\tObject Detected! Stopping Finch");
             DisplayMenuPrompt("Main Menu");
         }
 
@@ -360,6 +354,9 @@ namespace Project_FinchControl
 
             Console.WriteLine("\tThe Finch robot will play a tune and light up.");
             DisplayContinuePrompt();
+            //
+            //Song section 1 loop
+            //
             for (int i = 0; i < 4; i++)
             {
                 finchRobot.setLED(0, 0, 0);
@@ -381,6 +378,9 @@ namespace Project_FinchControl
             }
             finchRobot.setLED(0, 0, 0);
             finchRobot.noteOff();
+            //
+            //Song Section 2 loop
+            //
             for (int i = 0; i < 2; i++)
             {
                 finchRobot.setLED(230, 0, 230);
@@ -428,21 +428,11 @@ namespace Project_FinchControl
             finchRobot.wait(300);
             finchRobot.noteOn(369);
             finchRobot.wait(800);
-
-
-
-
-            //for (int lightSoundLevel = 0; lightSoundLevel < 255; lightSoundLevel++)
-            //{
-            //    finchRobot.setLED(lightSoundLevel, lightSoundLevel, lightSoundLevel);
-            //    finchRobot.noteOn(lightSoundLevel * 100);
-            //}
-            //finchRobot.wait(1000);
             finchRobot.noteOff();
             DisplayMenuPrompt("Talent Show Menu");
         }
-
         #endregion
+
 
         #region FINCH ROBOT MANAGEMENT
         /// <summary>
@@ -505,7 +495,10 @@ namespace Project_FinchControl
             } while (!quitUserProgramming);
 
         }
-
+        /// <summary>
+        /// Used to test the light sensors of the finch.
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void LightSensorTesting(Finch finchRobot)
         {
             DisplayScreenHeader("Light Sensor Testing");
@@ -698,12 +691,10 @@ namespace Project_FinchControl
 
             return robotConnected;
         }
-
         #endregion
 
+
         #region USER INTERFACE
-
-
         /// <summary>
         /// *****************************************************************
         /// *                     Welcome Screen                            *
@@ -768,10 +759,14 @@ namespace Project_FinchControl
             Console.WriteLine("\t\t" + headerText);
             Console.WriteLine();
         }
-
+        /// <summary>
+        /// setup the console theme
+        /// </summary>
+        static void SetTheme()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+        }
         #endregion
-
-
-
     }
 }
