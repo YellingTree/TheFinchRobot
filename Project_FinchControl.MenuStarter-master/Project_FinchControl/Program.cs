@@ -323,6 +323,10 @@ namespace Project_FinchControl
         /// <param name="finchRobot">Finch robot.</param>
         static void TalentShowDisplayManualDrivng(Finch finchRobot)
         {
+            //
+            //TODO Check key press without waiting
+            //This Currently is broken as key's will queue
+            //
             DisplayScreenHeader("Manual Drivng");
             Console.WriteLine();
             Console.WriteLine("\t Controls: W: forward | S: backwards | A: left | D: right");
@@ -396,7 +400,7 @@ namespace Project_FinchControl
             Console.WriteLine();
             do
             {
-               var (isObject, where) = IsObject(finchRobot);
+                var (isObject, where) = IsObject(finchRobot);
                 if (isObject)
                 {
                     finchRobot.setMotors(0, 0);
@@ -416,8 +420,8 @@ namespace Project_FinchControl
                     finchRobot.setMotors(100, 100);
                 }
             } while (!Console.KeyAvailable);
-
             finchRobot.setMotors(left: 0, right: 0);
+            Console.ReadKey();
             DisplayMenuPrompt("Main Menu");
         }
 
