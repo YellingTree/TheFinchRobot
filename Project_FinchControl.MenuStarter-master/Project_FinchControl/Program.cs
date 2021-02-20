@@ -381,7 +381,7 @@ namespace Project_FinchControl
             }
             finchRobot.setLED(0, 0, 0);
             finchRobot.noteOff();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 finchRobot.noteOn(328);
                 finchRobot.wait(300);
@@ -396,20 +396,33 @@ namespace Project_FinchControl
 
                 finchRobot.wait(300);
                 finchRobot.noteOff();
+                finchRobot.setLED(255, 191, 0);
                 finchRobot.noteOn(328);
                 finchRobot.wait(300);
+                finchRobot.setLED(0,0,0);
                 finchRobot.noteOff();
+                finchRobot.setLED(255, 255, 128);
                 finchRobot.noteOn(310);
                 finchRobot.wait(300);
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOff();
+                finchRobot.setLED(255, 255, 204);
                 finchRobot.noteOn(328);
                 finchRobot.wait(300);
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOff();
+                finchRobot.setLED(255, 25, 25);
                 finchRobot.noteOn(248);
                 finchRobot.wait(300);
-
-
             }
+            finchRobot.setLED(0, 0, 0);
+            finchRobot.noteOff();
+            finchRobot.noteOn(416);
+            finchRobot.wait(300);
+            finchRobot.noteOn(369);
+            finchRobot.wait(300);
+
+
 
 
             //for (int lightSoundLevel = 0; lightSoundLevel < 255; lightSoundLevel++)
