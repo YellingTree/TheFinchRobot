@@ -415,7 +415,7 @@ namespace Project_FinchControl
                 {
                     finchRobot.setMotors(100, 100);
                 }
-            } while (Console.KeyAvailable);
+            } while (!Console.KeyAvailable);
 
             finchRobot.setMotors(left: 0, right: 0);
             DisplayMenuPrompt("Main Menu");
