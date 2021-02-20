@@ -220,6 +220,9 @@ namespace Project_FinchControl
             do
             {
                 DisplayScreenHeader("Talent Show Menu");
+                Console.WriteLine();
+                Console.WriteLine("\t\tPlease note that this section is under development.");
+                Console.WriteLine("\t\t Some things here may be incompleate or missing");
 
                 //
                 // get user menu choice
@@ -280,8 +283,8 @@ namespace Project_FinchControl
         static void TalentShowDisplaySmartDriving(Finch finchRobot)
         {
             //
-            bool objectLeft;
-            bool objectRight;
+            //bool objectLeft;
+            //bool objectRight;
 
 
             DisplayScreenHeader("Smart Driving");
@@ -301,44 +304,66 @@ namespace Project_FinchControl
             //TODO Create loop for avoiding objects without stopping.
             //PLAN: Drive forward. OBJECT!! Check left or right, turn opsite direction. Continue if clear, else perform 180. Continue.
             //TODO Adding the ability for user to stop the finch without closing.
-
-
+            //
             do
             {
-                //
-                // Checks the sensors each loop
-                //
-                objectLeft = finchRobot.isObstacleLeftSide();
-                objectRight = finchRobot.isObstacleRightSide();
-
-                finchRobot.setMotors(left: 150,right: 150);
-                    //
-                    //Actions for when an object is detected.
-                    //
-                    if (objectLeft)
+                var (isObject, where) = IsObject(finchRobot);
+                if (isObject)
+                {
+                    finchRobot.setMotors(0, 0);
+                    if (where == "left")
                     {
-                        Console.WriteLine();
-                        Console.WriteLine("Object detected on the left");
-                        Console.WriteLine();
-                        finchRobot.setMotors(left: 0, right: 0);
-                        finchRobot.wait(2000);
-                        finchRobot.setMotors(left: 100, right: -100);
-                        finchRobot.wait(500);
+                        finchRobot.setMotors(50, -50);
                     }
-                    if (objectRight)
+                    if (where == "right")
                     {
-                        Console.WriteLine();
-                        Console.WriteLine("Object detected on the right");
-                        Console.WriteLine();
-                        finchRobot.setMotors(left: 0, right: 0);
-                        finchRobot.wait(2000);
-                        finchRobot.setMotors(left: -100, right: 100);
-                        finchRobot.wait(500);
-
+                        finchRobot.setMotors(-50, 50);
                     }
-                
-
+                }
+                else
+                {
+                    finchRobot.setMotors(100, 100);
+                }
             } while (finchRobot.getYAcceleration() < 1);
+            //
+            // Old Code
+            //
+            //do
+            //{
+            //    //
+            //    // Checks the sensors each loop
+            //    //
+            //    objectLeft = finchRobot.isObstacleLeftSide();
+            //    objectRight = finchRobot.isObstacleRightSide();
+
+            //    finchRobot.setMotors(left: 150,right: 150);
+            //        //
+            //        //Actions for when an object is detected.
+            //        //
+            //        if (objectLeft)
+            //        {
+            //            Console.WriteLine();
+            //            Console.WriteLine("Object detected on the left");
+            //            Console.WriteLine();
+            //            finchRobot.setMotors(left: 0, right: 0);
+            //            finchRobot.wait(2000);
+            //            finchRobot.setMotors(left: 100, right: -100);
+            //            finchRobot.wait(500);
+            //        }
+            //        if (objectRight)
+            //        {
+            //            Console.WriteLine();
+            //            Console.WriteLine("Object detected on the right");
+            //            Console.WriteLine();
+            //            finchRobot.setMotors(left: 0, right: 0);
+            //            finchRobot.wait(2000);
+            //            finchRobot.setMotors(left: -100, right: 100);
+            //            finchRobot.wait(500);
+
+            //        }
+
+
+            //} while (finchRobot.getYAcceleration() < 1);
             finchRobot.setMotors(left: 0, right: 0);
             DisplayMenuPrompt("Main Menu");
         }
@@ -490,6 +515,8 @@ namespace Project_FinchControl
             do
             {
                 DisplayScreenHeader("Sensor Testing Menu");
+                Console.WriteLine();
+                Console.WriteLine("\t\t!!This area is for debugging the finch!!");
 
                 //
                 // get user menu choice
