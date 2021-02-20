@@ -188,9 +188,11 @@ namespace Project_FinchControl
                 // get user menu choice
                 //
                 Console.WriteLine("\ta) Light and Sound");
-                Console.WriteLine("\tb) Driving Around");
-                Console.WriteLine("\tc) Smart Driving");
+                Console.WriteLine("\tb) Dance");
+                Console.WriteLine("\tc) Mix it up");
                 Console.WriteLine("\td) ");
+                Console.WriteLine("\te) Smart Driving");
+                Console.WriteLine("\tf) Driving Around");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -205,11 +207,11 @@ namespace Project_FinchControl
                         break;
 
                     case "b":
-                        TalentShowDisplayDrivingAround(finchRobot);
+
                         break;
 
                     case "c":
-                        TalentShowDisplaySmartDriving(finchRobot);
+
                         break;
 
                     case "d":
@@ -217,6 +219,13 @@ namespace Project_FinchControl
 
                     case "q":
                         quitTalentShowMenu = true;
+                        break;
+
+                    case "e":
+                        TalentShowDisplaySmartDriving(finchRobot); break;
+
+                    case "f":
+                        TalentShowDisplayDrivingAround(finchRobot);
                         break;
 
                     default:
@@ -351,13 +360,28 @@ namespace Project_FinchControl
 
             Console.WriteLine("\tThe Finch robot will not show off its glowing talent!");
             DisplayContinuePrompt();
-
-            for (int lightSoundLevel = 0; lightSoundLevel < 255; lightSoundLevel++)
+            for (int i = 0; i < 4; i++)
             {
-                finchRobot.setLED(lightSoundLevel, lightSoundLevel, lightSoundLevel);
-                finchRobot.noteOn(lightSoundLevel * 100);
+                finchRobot.noteOn(495);
+                finchRobot.wait(300);
+                finchRobot.noteOn(463);
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+                finchRobot.noteOn(366);
+                finchRobot.wait(300);
+                finchRobot.noteOff();
+                finchRobot.noteOn(310);
+                finchRobot.wait(300);
             }
-            finchRobot.wait(1000);
+
+
+
+            //for (int lightSoundLevel = 0; lightSoundLevel < 255; lightSoundLevel++)
+            //{
+            //    finchRobot.setLED(lightSoundLevel, lightSoundLevel, lightSoundLevel);
+            //    finchRobot.noteOn(lightSoundLevel * 100);
+            //}
+            //finchRobot.wait(1000);
             finchRobot.noteOff();
             DisplayMenuPrompt("Talent Show Menu");
         }
