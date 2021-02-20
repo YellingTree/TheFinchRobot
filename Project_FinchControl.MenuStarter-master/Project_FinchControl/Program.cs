@@ -223,6 +223,7 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 Console.WriteLine("\t\tPlease note that this section is under development.");
                 Console.WriteLine("\t\t Some things here may be incompleate or missing");
+                Console.WriteLine();
 
                 //
                 // get user menu choice
@@ -313,11 +314,13 @@ namespace Project_FinchControl
                     finchRobot.setMotors(0, 0);
                     if (where == "left")
                     {
-                        finchRobot.setMotors(50, -50);
+                        finchRobot.setMotors(75, -75);
+                        finchRobot.wait(1000);
                     }
                     if (where == "right")
                     {
-                        finchRobot.setMotors(-50, 50);
+                        finchRobot.setMotors(-75, 75);
+                        finchRobot.wait(1000);
                     }
                 }
                 else
