@@ -383,15 +383,22 @@ namespace Project_FinchControl
             finchRobot.noteOff();
             for (int i = 0; i < 2; i++)
             {
+                finchRobot.setLED(230, 0, 230);
                 finchRobot.noteOn(328);
                 finchRobot.wait(300);
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOff();
+                finchRobot.setLED(155, 0, 230);
                 finchRobot.noteOn(310);
                 finchRobot.wait(300);
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOff();
+                finchRobot.setLED(17, 0, 102);
                 finchRobot.noteOn(328);
                 finchRobot.wait(300);
+                finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOff();
+                finchRobot.setLED(0, 102, 204);
                 finchRobot.noteOn(248);
 
                 finchRobot.wait(300);
@@ -420,7 +427,7 @@ namespace Project_FinchControl
             finchRobot.noteOn(416);
             finchRobot.wait(300);
             finchRobot.noteOn(369);
-            finchRobot.wait(300);
+            finchRobot.wait(800);
 
 
 
