@@ -293,31 +293,43 @@ namespace Project_FinchControl
             DisplayContinuePrompt();
             do
             {
-                var userInput = Console.ReadKey(true);
-                
-                if (userInput.Key == ConsoleKey.W)
+
+                finchRobot.setMotors(0, 0);
+                if (Console.KeyAvailable)
                 {
-                    finchRobot.setMotors(255, 255);
-                    finchRobot.wait(100);
-                }
-                if (userInput.Key == ConsoleKey.S)
-                {
-                    finchRobot.setMotors(-255, -255);
-                    finchRobot.wait(100);
-                }
-                if (userInput.Key == ConsoleKey.A)
-                {
-                    finchRobot.setMotors(-255, 255);
-                    finchRobot.wait(100);
-                }
-                if (userInput.Key == ConsoleKey.D)
-                {
-                    finchRobot.setMotors(255, -255);
-                    finchRobot.wait(100);
+                    finchRobot.setMotors(0, 0);
                 }
                 else
                 {
-                    finchRobot.setMotors(0, 0);
+                    do
+                    {
+                        var userInput = Console.ReadKey(true);
+
+                        if (userInput.Key == ConsoleKey.W)
+                        {
+                            finchRobot.setMotors(255, 255);
+                            finchRobot.wait(100);
+                        }
+                        if (userInput.Key == ConsoleKey.S)
+                        {
+                            finchRobot.setMotors(-255, -255);
+                            finchRobot.wait(100);
+                        }
+                        if (userInput.Key == ConsoleKey.A)
+                        {
+                            finchRobot.setMotors(-255, 255);
+                            finchRobot.wait(100);
+                        }
+                        if (userInput.Key == ConsoleKey.D)
+                        {
+                            finchRobot.setMotors(255, -255);
+                            finchRobot.wait(100);
+                        }
+                        else
+                        {
+                            finchRobot.setMotors(0, 0);
+                        }
+                    } while (!Console.KeyAvailable);
                 }
 
             } while (finchRobot.getYAcceleration() < 1);
