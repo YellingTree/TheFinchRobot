@@ -234,6 +234,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\td) ");
                 Console.WriteLine("\te) Smart Driving");
                 Console.WriteLine("\tf) Driving Around");
+                Console.WriteLine("\tg) Manual Driving");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -262,10 +263,15 @@ namespace Project_FinchControl
                         break;
 
                     case "e":
-                        TalentShowDisplaySmartDriving(finchRobot); break;
+                        TalentShowDisplaySmartDriving(finchRobot); 
+                        break;
 
                     case "f":
                         TalentShowDisplayDrivingAround(finchRobot);
+                        break;
+
+                    case "g":
+                        TalentShowDisplayManualDrivng(finchRobot);
                         break;
 
                     default:
@@ -275,6 +281,43 @@ namespace Project_FinchControl
                         break;
                 }
             } while (!quitTalentShowMenu);
+        }
+
+        static void TalentShowDisplayManualDrivng(Finch finchRobot)
+        {
+            DisplayScreenHeader("Manual Drivng");
+            Console.WriteLine();
+            Console.WriteLine("\t Controls: W: forward | S: backwards | A: left | D: right");
+            Console.WriteLine();
+            Console.WriteLine("Shake finch to stop. [wheel to weel]");
+            DisplayContinuePrompt();
+            do
+            {
+                var userInput = Console.ReadKey(false);
+                
+                if (userInput.Key == ConsoleKey.W)
+                {
+                    finchRobot.setMotors(255, 255);
+                }
+                if (userInput.Key == ConsoleKey.S)
+                {
+                    finchRobot.setMotors(-255, -255);
+                }
+                if (userInput.Key == ConsoleKey.A)
+                {
+                    finchRobot.setMotors(-255, 255);
+                }
+                if (userInput.Key == ConsoleKey.D)
+                {
+                    finchRobot.setMotors(255, -255);
+                }
+                else
+                {
+                    finchRobot.setMotors(0, 0);
+                }
+
+            } while (finchRobot.getYAcceleration() < 1);
+            DisplayMenuPrompt("Talent Show Menu");
         }
 
         /// <summary>
@@ -328,45 +371,6 @@ namespace Project_FinchControl
                     finchRobot.setMotors(100, 100);
                 }
             } while (finchRobot.getYAcceleration() < 1);
-            //
-            // Old Code
-            //
-            //do
-            //{
-            //    //
-            //    // Checks the sensors each loop
-            //    //
-            //    objectLeft = finchRobot.isObstacleLeftSide();
-            //    objectRight = finchRobot.isObstacleRightSide();
-
-            //    finchRobot.setMotors(left: 150,right: 150);
-            //        //
-            //        //Actions for when an object is detected.
-            //        //
-            //        if (objectLeft)
-            //        {
-            //            Console.WriteLine();
-            //            Console.WriteLine("Object detected on the left");
-            //            Console.WriteLine();
-            //            finchRobot.setMotors(left: 0, right: 0);
-            //            finchRobot.wait(2000);
-            //            finchRobot.setMotors(left: 100, right: -100);
-            //            finchRobot.wait(500);
-            //        }
-            //        if (objectRight)
-            //        {
-            //            Console.WriteLine();
-            //            Console.WriteLine("Object detected on the right");
-            //            Console.WriteLine();
-            //            finchRobot.setMotors(left: 0, right: 0);
-            //            finchRobot.wait(2000);
-            //            finchRobot.setMotors(left: -100, right: 100);
-            //            finchRobot.wait(500);
-
-            //        }
-
-
-            //} while (finchRobot.getYAcceleration() < 1);
             finchRobot.setMotors(left: 0, right: 0);
             DisplayMenuPrompt("Main Menu");
         }
@@ -657,45 +661,6 @@ namespace Project_FinchControl
                 }
 
             } while (finchRobot.getYAcceleration() < 1);
-
-            //
-            // Old Test
-            //
-            //do
-            //{
-            //    if (finchRobot.isObstacleRightSide())
-            //    {
-            //        finchRobot.setLED(0, 255, 0);
-            //        Console.WriteLine("!! Detected Right Side !!");
-            //    }
-            //    else
-            //    {
-            //        finchRobot.setLED(255, 0, 0);
-            //        Console.WriteLine("Not Detecting on Right");
-            //    }
-            //} while (finchRobot.getYAcceleration() < 1);
-            //finchRobot.setLED(0, 0, 0);
-            //Console.WriteLine("\tDone with Right Sensor");
-            //Console.WriteLine();
-            //Console.WriteLine("\tNext Sensor is the Left");
-            //Console.WriteLine();
-            //Console.WriteLine("To end the test shake the finch front to back. [tail to beak]");
-            //DisplayContinuePrompt();
-            //do
-            //{
-            //    if (finchRobot.isObstacleLeftSide())
-            //    {
-            //        finchRobot.setLED(0, 255, 0);
-            //        Console.WriteLine("!! Detected Left Side !!");
-            //    }
-            //    else
-            //    {
-            //        finchRobot.setLED(255, 0, 0);
-            //        Console.WriteLine("Not Detecting on Left");
-            //    }
-            //} while (finchRobot.getXAcceleration() < 1);
-            //finchRobot.setLED(0, 0, 0);
-
             Console.WriteLine();
             Console.WriteLine("Done with Sensor Test");
             DisplayMenuPrompt("Sensor Menu");
