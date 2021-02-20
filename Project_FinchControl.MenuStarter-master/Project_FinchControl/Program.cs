@@ -293,23 +293,27 @@ namespace Project_FinchControl
             DisplayContinuePrompt();
             do
             {
-                var userInput = Console.ReadKey(false);
+                var userInput = Console.ReadKey(true);
                 
                 if (userInput.Key == ConsoleKey.W)
                 {
                     finchRobot.setMotors(255, 255);
+                    finchRobot.wait(100);
                 }
                 if (userInput.Key == ConsoleKey.S)
                 {
                     finchRobot.setMotors(-255, -255);
+                    finchRobot.wait(100);
                 }
                 if (userInput.Key == ConsoleKey.A)
                 {
                     finchRobot.setMotors(-255, 255);
+                    finchRobot.wait(100);
                 }
                 if (userInput.Key == ConsoleKey.D)
                 {
                     finchRobot.setMotors(255, -255);
+                    finchRobot.wait(100);
                 }
                 else
                 {
