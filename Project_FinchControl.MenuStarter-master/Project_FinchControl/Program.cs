@@ -380,11 +380,6 @@ namespace Project_FinchControl
         /// <param name="finchRobot">Finch robot.</param>
         static void TalentShowDisplaySmartDriving(Finch finchRobot)
         {
-            //
-            //bool objectLeft;
-            //bool objectRight;
-
-
             DisplayScreenHeader("Smart Driving");
             Console.WriteLine();
             Console.WriteLine("\tThe Finch will forward until it detects an object blocking it's path.");
@@ -399,13 +394,12 @@ namespace Project_FinchControl
             Console.WriteLine("\t!Finch is now moving! You can shake the finch to stop it. [wheel to wheel]");
             Console.WriteLine("\tThe finch will keep moving until it is shaked.");
             Console.WriteLine();
-            //TODO Create loop for avoiding objects without stopping.
-            //PLAN: Drive forward. OBJECT!! Check left or right, turn opsite direction. Continue if clear, else perform 180. Continue.
-            //TODO Adding the ability for user to stop the finch without closing.
-            //
+            bool exit;
+            exit = false;
             do
             {
-                var (isObject, where) = IsObject(finchRobot);
+               var userInput = Console.ReadKey(true);
+               var (isObject, where) = IsObject(finchRobot);
                 if (isObject)
                 {
                     finchRobot.setMotors(0, 0);
@@ -424,7 +418,12 @@ namespace Project_FinchControl
                 {
                     finchRobot.setMotors(100, 100);
                 }
-            } while (finchRobot.getYAcceleration() < 1);
+                if (userInput.Key == ConsoleKey.Q)
+                {
+                    exit = true;
+                }
+            } while (!exit);
+
             finchRobot.setMotors(left: 0, right: 0);
             DisplayMenuPrompt("Main Menu");
         }
@@ -767,14 +766,6 @@ namespace Project_FinchControl
             {
                 finchRobot.setLED(0, 0, 0);
                 finchRobot.noteOff();
-                finchRobot.wait(500);
-                for (int blinks = 0; blinks < 3; blinks++)
-                {
-                    finchRobot.setLED(255, 0, 0);
-                    finchRobot.wait(500);
-                    finchRobot.setLED(0, 0, 0);
-                    finchRobot.wait(500);
-                }
                 finchRobot.wait(400);
                 finchRobot.setLED(0, 255, 0);
                 finchRobot.noteOn(165);
