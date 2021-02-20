@@ -391,14 +391,11 @@ namespace Project_FinchControl
             // Warning user that finch is going to move
             WarningBeep(finchRobot);
             Console.WriteLine();
-            Console.WriteLine("\t!Finch is now moving! You can shake the finch to stop it. [wheel to wheel]");
-            Console.WriteLine("\tThe finch will keep moving until it is shaked.");
+            Console.WriteLine("\t!Finch is now moving! Press any key to stop it.");
+            Console.WriteLine("\tThe finch will keep moving until told to stop.");
             Console.WriteLine();
-            bool exit;
-            exit = false;
             do
             {
-               var userInput = Console.ReadKey(true);
                var (isObject, where) = IsObject(finchRobot);
                 if (isObject)
                 {
@@ -418,11 +415,7 @@ namespace Project_FinchControl
                 {
                     finchRobot.setMotors(100, 100);
                 }
-                if (userInput.Key == ConsoleKey.Q)
-                {
-                    exit = true;
-                }
-            } while (!exit);
+            } while (Console.KeyAvailable);
 
             finchRobot.setMotors(left: 0, right: 0);
             DisplayMenuPrompt("Main Menu");
