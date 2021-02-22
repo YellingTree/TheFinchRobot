@@ -317,6 +317,7 @@ namespace Project_FinchControl
                 finchRobot.setLED(255, 0, 255);
                 finchRobot.noteOn(250);
                 finchRobot.wait(1000);
+                finchRobot.noteOff();
             }
             RestFinch(finchRobot);
             DisplayMenuPrompt("Talent Show");
