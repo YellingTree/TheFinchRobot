@@ -252,7 +252,7 @@ namespace Project_FinchControl
                         break;
 
                     case "c":
-
+                        TalentShowDisplayMixItUp(finchRobot);
                         break;
 
                     case "d":
@@ -283,6 +283,33 @@ namespace Project_FinchControl
             } while (!quitTalentShowMenu);
         }
 
+        static void TalentShowDisplayMixItUp(Finch finchRobot)
+        {
+            RestFinch(finchRobot);
+            DisplayScreenHeader("Mixing it up");
+            Console.WriteLine();
+            Console.WriteLine("The finch will dance and beep");
+            Console.WriteLine();
+            DisplayContinuePrompt();
+            WarningBeep(finchRobot);
+            for (int i = 0; i < 4; i++)
+            {
+                finchRobot.setMotors(-255, 255);
+                finchRobot.noteOn(400);
+                finchRobot.wait(1500);
+                finchRobot.setMotors(255, -255);
+                finchRobot.noteOn(350);
+                finchRobot.wait(1500);
+                finchRobot.setMotors(255, 255);
+                finchRobot.noteOn(300);
+                finchRobot.wait(1000);
+                finchRobot.setMotors(-255, -255);
+                finchRobot.noteOn(250);
+            }
+            RestFinch(finchRobot);
+            DisplayMenuPrompt("Talent Show");
+        }
+
         static void TalentShowDisplayDance(Finch finchRobot)
         {
             RestFinch(finchRobot);
@@ -292,7 +319,7 @@ namespace Project_FinchControl
             Console.WriteLine();
             DisplayContinuePrompt();
             WarningBeep(finchRobot);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 finchRobot.setMotors(255, 255);
                 finchRobot.wait(500);
