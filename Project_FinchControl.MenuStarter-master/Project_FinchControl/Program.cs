@@ -292,8 +292,15 @@ namespace Project_FinchControl
             Console.WriteLine();
             DisplayContinuePrompt();
             WarningBeep(finchRobot);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
+                finchRobot.noteOn(500);
+                finchRobot.wait(500);
+                finchRobot.noteOn(600);
+                finchRobot.wait(500);
+                finchRobot.noteOn(750);
+                finchRobot.wait(500);
+                finchRobot.noteOff();
                 finchRobot.setMotors(-255, 255);
                 finchRobot.setLED(255, 0, 0);
                 finchRobot.noteOn(400);
@@ -309,6 +316,7 @@ namespace Project_FinchControl
                 finchRobot.setMotors(-255, -255);
                 finchRobot.setLED(255, 0, 255);
                 finchRobot.noteOn(250);
+                finchRobot.wait(1000);
             }
             RestFinch(finchRobot);
             DisplayMenuPrompt("Talent Show");
