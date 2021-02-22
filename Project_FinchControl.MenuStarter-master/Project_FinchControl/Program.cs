@@ -288,22 +288,26 @@ namespace Project_FinchControl
             RestFinch(finchRobot);
             DisplayScreenHeader("Mixing it up");
             Console.WriteLine();
-            Console.WriteLine("The finch will dance and beep");
+            Console.WriteLine("\tThe finch will dance and beep");
             Console.WriteLine();
             DisplayContinuePrompt();
             WarningBeep(finchRobot);
             for (int i = 0; i < 4; i++)
             {
                 finchRobot.setMotors(-255, 255);
+                finchRobot.setLED(255, 0, 0);
                 finchRobot.noteOn(400);
                 finchRobot.wait(1500);
                 finchRobot.setMotors(255, -255);
+                finchRobot.setLED(0, 255, 0);
                 finchRobot.noteOn(350);
                 finchRobot.wait(1500);
                 finchRobot.setMotors(255, 255);
+                finchRobot.setLED(0, 0, 255);
                 finchRobot.noteOn(300);
                 finchRobot.wait(1000);
                 finchRobot.setMotors(-255, -255);
+                finchRobot.setLED(255, 0, 255);
                 finchRobot.noteOn(250);
             }
             RestFinch(finchRobot);
