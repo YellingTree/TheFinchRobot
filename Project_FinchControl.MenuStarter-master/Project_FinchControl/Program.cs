@@ -197,9 +197,9 @@ namespace Project_FinchControl
                 Console.WriteLine("\ta) Number of Data Points");
                 Console.WriteLine("\tb) Frequency of Data Points");
                 Console.WriteLine("\tc) Get Data");
-                Console.WriteLine("\td) ");
-                Console.WriteLine("\te) Smart Driving");
-                Console.WriteLine("\tf) Driving Around");
+                Console.WriteLine("\td) Display Temp Data");
+                Console.WriteLine("\te) ");
+                Console.WriteLine("\tf) ");
                 Console.WriteLine("\tg) ");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
@@ -316,7 +316,7 @@ namespace Project_FinchControl
             double dataPointFrequency;
             DisplayScreenHeader("Data Point Frequency");
             Console.WriteLine();
-            Console.Write("Data Point Frequency");
+            Console.Write("Data Point Frequency: ");
             dataPointFrequency = double.Parse(Console.ReadLine());
 
             Console.WriteLine();
@@ -331,13 +331,26 @@ namespace Project_FinchControl
         static int DataRecorderDisplayGetNumberOfDataPoints()
         {
             int numberOfDataPoints;
+            bool validResponse;
+            string userResponse;
 
             DisplayScreenHeader("Number of Data Points");
             //
             //TODO Validate for number
             //
-            Console.Write("\tNumber of Data points:");
-            numberOfDataPoints = int.Parse(Console.ReadLine());
+            do
+            {
+                validResponse = true;
+
+                Console.Write("\tNumber of Data points: ");
+                userResponse = Console.ReadLine();
+
+                if (!int.TryParse(userResponse, out numberOfDataPoints))
+                {
+                    Console.WriteLine("\t Please enter whole number");
+                    validResponse = false;
+                }
+            } while (!validResponse);
 
             Console.WriteLine();
             Console.WriteLine($"\tYou chose {numberOfDataPoints} as the number of data points.");
