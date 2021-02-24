@@ -185,7 +185,7 @@ namespace Project_FinchControl
 
             do
             {
-                DisplayScreenHeader("Talent Show Menu");
+                DisplayScreenHeader("Data Recording Menu");
                 Console.WriteLine();
                 Console.WriteLine("\t\tPlease note that this section is under development.");
                 Console.WriteLine("\t\t Some things here may be incompleate or missing");
@@ -314,11 +314,23 @@ namespace Project_FinchControl
         static double DataRecorderDisplayGetDataPointFrequency()
         {
             double dataPointFrequency;
+            bool validResponse;
+            string userResponse;
             DisplayScreenHeader("Data Point Frequency");
             Console.WriteLine();
-            Console.Write("Data Point Frequency: ");
-            dataPointFrequency = double.Parse(Console.ReadLine());
-
+            do
+            {
+                validResponse = true;
+                Console.Write("Data Point Frequency: ");
+                userResponse = Console.ReadLine();
+                if (!double.TryParse(userResponse, out dataPointFrequency))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("\t Please enter a number (eg: 12, 1.5, .25)");
+                    Console.WriteLine();
+                    validResponse = false;
+                }
+            } while (!validResponse);
             Console.WriteLine();
             Console.WriteLine($"\tYou chose {dataPointFrequency} as the data point frequency");
 
@@ -335,9 +347,6 @@ namespace Project_FinchControl
             string userResponse;
 
             DisplayScreenHeader("Number of Data Points");
-            //
-            //TODO Validate for number
-            //
             do
             {
                 validResponse = true;
