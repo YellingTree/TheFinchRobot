@@ -424,7 +424,7 @@ namespace Project_FinchControl
                 Console.WriteLine(
                 (index + 1).ToString().PadLeft(20) +
                 "C°".PadLeft(15), (temperatures[index]).ToString("n1") + 
-                ("F°".PadLeft(3), (temperatures[index] * 1.8) + 32).ToString().PadLeft(5)
+                ("F°", (temperatures[index] * 1.8) + 32).ToString().PadLeft(5)
                 );
 
             }
