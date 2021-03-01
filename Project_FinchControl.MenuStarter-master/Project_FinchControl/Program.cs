@@ -109,6 +109,10 @@ namespace Project_FinchControl
 
             } while (!quitApplication);
         }
+        /// <summary>
+        /// Data Recording Main Menu Screen
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
         static void DataRecorderDisplayMenu(Finch finchRobot)
         {
             Console.CursorVisible = true;
@@ -390,6 +394,13 @@ namespace Project_FinchControl
                 return (isObject, where);
         }
 
+        //static double[] TempConvertToF(double[] tempC)
+        //{
+        //    double[] tempF;
+        //    tempF = (tempC * 1.8) + 32;
+
+        //    return tempF;
+        //}
         #endregion
 
         #region DATA RECORDER
@@ -412,10 +423,48 @@ namespace Project_FinchControl
             {
                 Console.WriteLine(
                 (index + 1).ToString().PadLeft(20) +
-                (temperatures[index]).ToString("n1").PadLeft(15)
+                "C°", (temperatures[index]).ToString("n1").PadLeft(15) +
+                "F°",(temperatures[index] * 1.8) + 32
                 );
+
             }
         }
+
+        //static int[] DataRecorderGetLight(int numberOfDataPoints, double dataPointFrequency, Finch finchRobot)
+        //{
+        //    int[] lightData = new int[numberOfDataPoints];
+        //    int dataPointFreqMs;
+        //    //
+        //    // Convert the freq in seconds to ms
+        //    //
+        //    dataPointFreqMs = (int)(dataPointFrequency * 1000);
+        //    DisplayScreenHeader("Light Data");
+        //    Console.WriteLine();
+        //    Console.WriteLine($"\tThe Finch robot will now record light data for {numberOfDataPoints} number of times, {dataPointFrequency} seconds apart");
+        //    Console.WriteLine("Press any key to being");
+        //    Console.ReadLine();
+
+        //    for (int i = 0; i < numberOfDataPoints; i++)
+        //    {
+        //        lightData[i] = finchRobot.getLightSensors();
+        //        //
+        //        // Echo new temp
+        //        //
+        //        Console.WriteLine($"\tLight Data: {i + 1}: {lightData[i]:n1}");
+        //        finchRobot.wait(dataPointFreqMs);
+
+        //    }
+
+        //    //
+        //    // Display table of temps
+        //    //
+        //    Console.WriteLine();
+        //    DisplayDataRecorderDataTable(lightData);
+        //    DisplayMenuPrompt("Data Recorder Menu");
+
+        //    return lightData;
+        //}
+
         /// <summary>
         /// Displays the last data recording to the user
         /// </summary>
