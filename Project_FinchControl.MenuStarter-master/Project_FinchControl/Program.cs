@@ -700,9 +700,9 @@ namespace Project_FinchControl
             Console.Write("\tEnter Time to Monitor in seconds [eg. 1.2, 0.2, 12]: ");
             timeToMonitor = ValidateDoubleValue();
 
-            timeToMonitor = timeToMonitor * 1000;
+
             Console.WriteLine();
-            Console.WriteLine($"\tYou have entered {timeToMonitor / 1000} seconds for Time to Record");
+            Console.WriteLine($"\tYou have entered {timeToMonitor} seconds for Time to Record");
 
             DisplayMenuPrompt("Alarm System Menu");
             return timeToMonitor;
@@ -722,7 +722,7 @@ namespace Project_FinchControl
             Console.WriteLine($"\tMonitored Light Sensor: {sensorsToMonitor}");
             Console.WriteLine($"\tRange Type: {rangeType}");
             Console.WriteLine($"\tThreshold Value: {minMaxThresholdValue}");
-            Console.WriteLine($"\tMonitoring Time: {timeToMonitor / 1000} seconds");
+            Console.WriteLine($"\tMonitoring Time: {timeToMonitor} seconds");
             Console.WriteLine();
             Console.WriteLine();
 
@@ -745,9 +745,9 @@ namespace Project_FinchControl
                         secondsElapsed++;
                         if (rangeType == "min")
                         {
-                            thresholdExceeded = (leftLightSensor < minMaxThresholdValue);
+                            thresholdExceeded = (leftLightSensor <= minMaxThresholdValue);
                         }
-                        else
+                        else // Max
                         {
                             if (leftLightSensor > minMaxThresholdValue)
                             {
@@ -761,9 +761,9 @@ namespace Project_FinchControl
                         secondsElapsed++;
                         if (rangeType == "min")
                         {
-                            thresholdExceeded = (rightLightSensor < minMaxThresholdValue);
+                            thresholdExceeded = (rightLightSensor <= minMaxThresholdValue);
                         }
-                        else
+                        else // Max
                         {
                             if (rightLightSensor > minMaxThresholdValue)
                             {
@@ -777,12 +777,12 @@ namespace Project_FinchControl
                         secondsElapsed++;
                         if (rangeType == "min")
                         {
-                            if ( (leftLightSensor < minMaxThresholdValue) || (rightLightSensor < minMaxThresholdValue) )
+                            if ( (leftLightSensor <= minMaxThresholdValue) || (rightLightSensor <= minMaxThresholdValue) )
                             {
                                 thresholdExceeded = true;
                             }
                         }
-                        else
+                        else // Max
                         {
                             if ( (leftLightSensor > minMaxThresholdValue) || (rightLightSensor > minMaxThresholdValue) )
                             {
