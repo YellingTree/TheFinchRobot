@@ -714,7 +714,7 @@ namespace Project_FinchControl
             int secondsElapsed = 0;
             int leftLightSensor;
             int rightLightSensor;
-            bool isValuesSet = true;
+            bool isValuesSet;
             DisplayScreenHeader("Set Alarm");
             //
             // Check for default values, warn user that values are not set.
@@ -737,10 +737,11 @@ namespace Project_FinchControl
             if (timeToMonitor == 0)
             {
                 isValuesSet = false;
-                Console.WriteLine("No Time to Monitor value set");
+                Console.WriteLine("\tNo Time to Monitor value set");
             }
             else
             {
+                isValuesSet = true;
                 Console.WriteLine();
                 Console.WriteLine($"\tMonitored Light Sensor: {sensorsToMonitor}");
                 Console.WriteLine($"\tRange Type: {rangeType}");
