@@ -720,7 +720,7 @@ namespace Project_FinchControl
             Console.WriteLine($"\tMonitored Light Sensor: {sensorsToMonitor}");
             Console.WriteLine($"\tRange Type: {rangeType}");
             Console.WriteLine($"\tThreshold Value: {minMaxThresholdValue}");
-            Console.WriteLine($"\tMonitoring Time: {timeToMonitor} seconds");
+            Console.WriteLine($"\tMonitoring Time: {timeToMonitor / 1000} seconds");
             Console.WriteLine();
             Console.WriteLine();
 
@@ -739,6 +739,7 @@ namespace Project_FinchControl
                 switch (sensorsToMonitor)
                 {
                     case "left":
+                        Console.WriteLine($"\tCurrent Recorded Value on Left Sensor: {leftLightSensor}");
                         if (rangeType == "min")
                         {
                             thresholdExceeded = (leftLightSensor < minMaxThresholdValue);
@@ -753,6 +754,7 @@ namespace Project_FinchControl
                         break;
 
                     case "right":
+                        Console.WriteLine($"\tCurrent Recorded Value on Right Sensor: {rightLightSensor}");
                         if (rangeType == "min")
                         {
                             thresholdExceeded = (rightLightSensor < minMaxThresholdValue);
@@ -767,6 +769,7 @@ namespace Project_FinchControl
                         break;
 
                     case "both":
+                        Console.WriteLine($"\tCurrent Recorded Value: Left: {leftLightSensor} Right: {rightLightSensor}");
                         if (rangeType == "min")
                         {
                             if ( (leftLightSensor < minMaxThresholdValue) || (rightLightSensor < minMaxThresholdValue) )
