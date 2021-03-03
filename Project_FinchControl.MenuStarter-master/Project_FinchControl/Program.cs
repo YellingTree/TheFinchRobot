@@ -533,7 +533,7 @@ namespace Project_FinchControl
 
         static string AlarmSystemDisplaySetSensors()
         {
-            string sensorsToMonitor;
+            string sensorsToMonitor = "null";
             bool validResponse;
 
             DisplayScreenHeader("Sensors To Monitor");
@@ -577,7 +577,7 @@ namespace Project_FinchControl
 
         static string AlarmSystemDisplayRangeType()
         {
-            string rangeType;
+            string rangeType = "null";
             bool validResponse;
 
             DisplayScreenHeader("Range Type");
@@ -616,7 +616,7 @@ namespace Project_FinchControl
 
         static int AlarmSystemDisplayThresholdValue(string sensorsToMonitor, string rangeType, Finch finchRobot)
         {
-            int thresholdValue = 0;
+            int thresholdValue = -1;
 
             int currentLeftSensorValue = finchRobot.getLeftLightSensor();
             int currentRightSensorValue = finchRobot.getRightLightSensor();
@@ -669,7 +669,7 @@ namespace Project_FinchControl
             {
                 validResponse = true;
 
-            thresholdValue = ValidateIntValue();
+                thresholdValue = ValidateIntValue();
                 if (thresholdValue < 0)
                 {
                     Console.WriteLine("\tThe finch robot only supports values between 0 and 255");
@@ -714,6 +714,7 @@ namespace Project_FinchControl
             int secondsElapsed = 0;
             int leftLightSensor;
             int rightLightSensor;
+            bool isValuesSet = true;
             DisplayScreenHeader("Set Alarm");
             //
             //TODO echo values to user
@@ -730,76 +731,105 @@ namespace Project_FinchControl
             Console.WriteLine("\tPress any key to start");
             Console.ReadKey();
 
-            //
-            // Threshold Check
-            //
+
             do
             {
-                leftLightSensor = finchRobot.getLeftLightSensor();
-                rightLightSensor = finchRobot.getRightLightSensor();
-
-                switch (sensorsToMonitor)
+                //
+                // Check for default values, warn user that values are not set.
+                //
+                if (sensorsToMonitor == "null")
                 {
-                    case "left":
-                        Console.WriteLine($"\tCurrent Recorded Value on Left Sensor: {leftLightSensor}");
-                        secondsElapsed++;
-                        if (rangeType == "min")
-                        {
-                            thresholdExceeded = (leftLightSensor <= minMaxThresholdValue);
-                        }
-                        else // Max
-                        {
-                            if (leftLightSensor > minMaxThresholdValue)
-                            {
-                                thresholdExceeded = true;
-                            }
-                        }
-                        break;
-
-                    case "right":
-                        Console.WriteLine($"\tCurrent Recorded Value on Right Sensor: {rightLightSensor}");
-                        secondsElapsed++;
-                        if (rangeType == "min")
-                        {
-                            thresholdExceeded = (rightLightSensor <= minMaxThresholdValue);
-                        }
-                        else // Max
-                        {
-                            if (rightLightSensor > minMaxThresholdValue)
-                            {
-                                thresholdExceeded = true;
-                            }
-                        }
-                        break;
-
-                    case "both":
-                        Console.WriteLine($"\tCurrent Recorded Value: Left: {leftLightSensor} Right: {rightLightSensor}");
-                        secondsElapsed++;
-                        if (rangeType == "min")
-                        {
-                            if ( (leftLightSensor <= minMaxThresholdValue) || (rightLightSensor <= minMaxThresholdValue) )
-                            {
-                                thresholdExceeded = true;
-                            }
-                        }
-                        else // Max
-                        {
-                            if ( (leftLightSensor > minMaxThresholdValue) || (rightLightSensor > minMaxThresholdValue) )
-                            {
-                                thresholdExceeded = true;
-                            }
-                        }
-                        break;
-
-                    default:
-                        Console.WriteLine();
-                        Console.WriteLine("\tError, did you set a sensor to monitor?");
-                        Console.WriteLine();
-                        break;
+                    isValuesSet = false;
+                    Console.WriteLine("\tNo Sensor selected");
                 }
+                if (rangeType == "null")
+                {
+                    isValuesSet = false;
+                    Console.WriteLine("\tNo Range Type set");
+                }
+                if (minMaxThresholdValue == -1)
+                {
+                    isValuesSet = false;
+                    Console.WriteLine("\tNo Threshold Value set");
+                }
+                if (timeToMonitor == 0)
+                {
+                    isValuesSet = false;
+                    Console.WriteLine("No Time to Monitor value set");
+                }
+                //
+                // Threshold Check
+                //
+                do
+                {
+                    leftLightSensor = finchRobot.getLeftLightSensor();
+                    rightLightSensor = finchRobot.getRightLightSensor();
+
+                    switch (sensorsToMonitor)
+                    {
+                        case "left":
+                            Console.WriteLine($"\tCurrent Recorded Value on Left Sensor: {leftLightSensor}");
+                            secondsElapsed++;
+                            if (rangeType == "min")
+                            {
+                                thresholdExceeded = (leftLightSensor <= minMaxThresholdValue);
+                            }
+                            else // Max
+                            {
+                                if (leftLightSensor > minMaxThresholdValue)
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            break;
+
+                        case "right":
+                            Console.WriteLine($"\tCurrent Recorded Value on Right Sensor: {rightLightSensor}");
+                            secondsElapsed++;
+                            if (rangeType == "min")
+                            {
+                                thresholdExceeded = (rightLightSensor <= minMaxThresholdValue);
+                            }
+                            else // Max
+                            {
+                                if (rightLightSensor > minMaxThresholdValue)
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            break;
+
+                        case "both":
+                            Console.WriteLine($"\tCurrent Recorded Value: Left: {leftLightSensor} Right: {rightLightSensor}");
+                            secondsElapsed++;
+                            if (rangeType == "min")
+                            {
+                                if ( (leftLightSensor <= minMaxThresholdValue) || (rightLightSensor <= minMaxThresholdValue) )
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            else // Max
+                            {
+                                if ( (leftLightSensor > minMaxThresholdValue) || (rightLightSensor > minMaxThresholdValue) )
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            break;
+
+                        default:
+                            Console.WriteLine();
+                            Console.WriteLine("\tError, did you set a sensor to monitor?");
+                            Console.WriteLine();
+                            break;
+                    }
                 finchRobot.wait(1000);
 
             } while (!thresholdExceeded && secondsElapsed < timeToMonitor);
+
+            } while (isValuesSet);
+
 
             if (thresholdExceeded)
             {
