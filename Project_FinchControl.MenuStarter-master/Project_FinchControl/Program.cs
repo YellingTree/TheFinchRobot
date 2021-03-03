@@ -701,6 +701,8 @@ namespace Project_FinchControl
             timeToMonitor = ValidateDoubleValue();
 
             timeToMonitor = timeToMonitor * 1000;
+            Console.WriteLine();
+            Console.WriteLine($"\tYou have entered {timeToMonitor / 1000} seconds for Time to Record");
 
             DisplayMenuPrompt("Alarm System Menu");
             return timeToMonitor;
@@ -740,6 +742,7 @@ namespace Project_FinchControl
                 {
                     case "left":
                         Console.WriteLine($"\tCurrent Recorded Value on Left Sensor: {leftLightSensor}");
+                        secondsElapsed++;
                         if (rangeType == "min")
                         {
                             thresholdExceeded = (leftLightSensor < minMaxThresholdValue);
@@ -755,6 +758,7 @@ namespace Project_FinchControl
 
                     case "right":
                         Console.WriteLine($"\tCurrent Recorded Value on Right Sensor: {rightLightSensor}");
+                        secondsElapsed++;
                         if (rangeType == "min")
                         {
                             thresholdExceeded = (rightLightSensor < minMaxThresholdValue);
@@ -770,6 +774,7 @@ namespace Project_FinchControl
 
                     case "both":
                         Console.WriteLine($"\tCurrent Recorded Value: Left: {leftLightSensor} Right: {rightLightSensor}");
+                        secondsElapsed++;
                         if (rangeType == "min")
                         {
                             if ( (leftLightSensor < minMaxThresholdValue) || (rightLightSensor < minMaxThresholdValue) )
@@ -793,10 +798,18 @@ namespace Project_FinchControl
                         break;
                 }
                 finchRobot.wait(1000);
-                secondsElapsed++;
 
             } while (!thresholdExceeded && secondsElapsed < timeToMonitor);
 
+            if (thresholdExceeded)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"\t!Threshold Exceeded! The light value surpassed the set Threshold");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            Console.WriteLine("\tTime limit reached, stopping recording");
+            Console.WriteLine();
             //if (sensorsToMonitor == "right")
             //{
             //    //
