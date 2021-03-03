@@ -717,50 +717,46 @@ namespace Project_FinchControl
             bool isValuesSet = true;
             DisplayScreenHeader("Set Alarm");
             //
-            //TODO echo values to user
+            // Check for default values, warn user that values are not set.
             //
+            if (sensorsToMonitor == "null")
+            {
+                isValuesSet = false;
+                Console.WriteLine("\tNo Sensor selected");
+            }
+            if (rangeType == "null")
+            {
+                isValuesSet = false;
+                Console.WriteLine("\tNo Range Type set");
+            }
+            if (minMaxThresholdValue == -1)
+            {
+                isValuesSet = false;
+                Console.WriteLine("\tNo Threshold Value set");
+            }
+            if (timeToMonitor == 0)
+            {
+                isValuesSet = false;
+                Console.WriteLine("No Time to Monitor value set");
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine($"\tMonitored Light Sensor: {sensorsToMonitor}");
+                Console.WriteLine($"\tRange Type: {rangeType}");
+                Console.WriteLine($"\tThreshold Value: {minMaxThresholdValue}");
+                Console.WriteLine($"\tMonitoring Time: {timeToMonitor} seconds");
+                Console.WriteLine();
+                Console.WriteLine();
+
+                //prompting to start
+                Console.WriteLine("\tPress any key to start");
+                Console.ReadKey();
+            }
 
             do
             {
-                //
-                // Check for default values, warn user that values are not set.
-                //
-                if (sensorsToMonitor == "null")
-                {
-                    isValuesSet = false;
-                    Console.WriteLine("\tNo Sensor selected");
-                }
-                if (rangeType == "null")
-                {
-                    isValuesSet = false;
-                    Console.WriteLine("\tNo Range Type set");
-                }
-                if (minMaxThresholdValue == -1)
-                {
-                    isValuesSet = false;
-                    Console.WriteLine("\tNo Threshold Value set");
-                }
-                if (timeToMonitor == 0)
-                {
-                    isValuesSet = false;
-                    Console.WriteLine("No Time to Monitor value set");
-                }
-                else
-                {
-                    Console.WriteLine("\tValues to be echoed");
-                    Console.WriteLine($"\tMonitored Light Sensor: {sensorsToMonitor}");
-                    Console.WriteLine($"\tRange Type: {rangeType}");
-                    Console.WriteLine($"\tThreshold Value: {minMaxThresholdValue}");
-                    Console.WriteLine($"\tMonitoring Time: {timeToMonitor} seconds");
-                    Console.WriteLine();
-                    Console.WriteLine();
-
-                    //prompting to start
-                    Console.WriteLine("\tPress any key to start");
-                    Console.ReadKey();
-                }
-
-
+               
                 //
                 // Threshold Check
                 //
@@ -828,9 +824,10 @@ namespace Project_FinchControl
                             Console.WriteLine();
                             break;
                     }
-                finchRobot.wait(1000);
+                    finchRobot.wait(1000);
 
-            } while (!thresholdExceeded && secondsElapsed < timeToMonitor);
+                } while (!thresholdExceeded && secondsElapsed < timeToMonitor);
+                isValuesSet = false;
 
             } while (isValuesSet);
 
