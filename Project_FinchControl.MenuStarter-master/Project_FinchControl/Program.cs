@@ -801,6 +801,7 @@ namespace Project_FinchControl
                 //prompting to start
                 Console.WriteLine("\tPress any key to start");
                 Console.ReadKey();
+                Console.WriteLine();
 
                 //
                 // Threshold Check
@@ -822,7 +823,7 @@ namespace Project_FinchControl
                             //
                             // This is a really bad way to do this, but it might work for now.
                             //
-                            Console.SetCursorPosition(1, 11);
+                            Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
                             {
@@ -839,6 +840,7 @@ namespace Project_FinchControl
 
                         case "right":
                             Console.WriteLine($"\tCurrent Recorded Value on Right Sensor: {rightLightSensor}");
+                            Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
                             {
@@ -855,6 +857,7 @@ namespace Project_FinchControl
 
                         case "both":
                             Console.WriteLine($"\tCurrent Recorded Value: Left: {leftLightSensor} Right: {rightLightSensor}");
+                            Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
                             {
@@ -888,9 +891,9 @@ namespace Project_FinchControl
                 if (thresholdExceeded)
                 {
                     Console.WriteLine();
-                    WarningBlink(finchRobot, 3);
                     Console.WriteLine($"\t!Threshold Exceeded! The light value surpassed the set Threshold");
                     WarningBeep(finchRobot);
+                    WarningBlink(finchRobot, 2);
                     Console.WriteLine();
                 }
                 if (secondsElapsed >= timeToMonitor)
