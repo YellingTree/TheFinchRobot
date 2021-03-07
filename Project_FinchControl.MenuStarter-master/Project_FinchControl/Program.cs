@@ -471,7 +471,7 @@ namespace Project_FinchControl
         /// </summary>
         /// <returns>isObject, where (bool), (string) left, right, clear</returns>
         /// <param name="finchRobot">Finch robot.</param>
-        static (bool isObject, string where) IsObject(Finch finchRobot)
+        static (bool isObject, string where)IsObject(Finch finchRobot)
         {
             bool left;
             bool right;
@@ -812,10 +812,17 @@ namespace Project_FinchControl
                     //
                     // Records data based on selected sensor and checks against time value and threshold, falls out if either exceed.
                     //
+                    // TODO: Update Current Recorded Value CW to refresh line rather than printing a new line.
+                    //
                     switch (sensorsToMonitor)
                     {
                         case "left":
+
                             Console.WriteLine($"\tCurrent Recorded Value on Left Sensor: {leftLightSensor}");
+                            //
+                            // This is a really bad way to do this, but it might work for now.
+                            //
+                            Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
                             {
