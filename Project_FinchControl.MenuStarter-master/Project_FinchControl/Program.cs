@@ -32,13 +32,13 @@ namespace Project_FinchControl
             DisplayClosingScreen();
         }
 
-
+        /// <summary>
+        /// All Main Menus are located here
+        /// </summary>
         #region MAIN MENUS
 
         /// <summary>
-        /// *****************************************************************
-        /// *                     Main Menu                                 *
-        /// *****************************************************************
+        /// Displays the Applications Main Menu
         /// </summary>
         static void DisplayMenuScreen()
         {
@@ -359,7 +359,7 @@ namespace Project_FinchControl
                 //
                 Console.WriteLine("\ta) Set Sensors to Monitor");
                 Console.WriteLine("\tb) Set Range Type");
-                Console.WriteLine("\tc) Set Min/Max Threshold Value;");
+                Console.WriteLine("\tc) Set Min/Max Threshold Value");
                 Console.WriteLine("\td) Set Time to Monitor");
                 Console.WriteLine("\te) Set Alarm");
                 Console.WriteLine("\tf) N/A");
@@ -415,6 +415,9 @@ namespace Project_FinchControl
 
         #endregion
 
+        /// <summary>
+        /// Small or general use methods are located here
+        /// </summary>
         #region SMALL METHODS
 
         /// <summary>
@@ -509,8 +512,7 @@ namespace Project_FinchControl
                 if (!int.TryParse(userInput, out validatedIntValue))
                 {
                     Console.WriteLine();
-                    Console.Write("\t Please enter a number a whole number [eg. 1, 5, 20]");
-                    Console.WriteLine();
+                    Console.Write("\t Please enter a number a whole number [eg. 1, 5, 20]: ");
                     validResponse = false;
                 }
             } while (!validResponse);
@@ -533,29 +535,24 @@ namespace Project_FinchControl
                 if (!double.TryParse(userInput, out validatedDoubleValue))
                 {
                     Console.WriteLine();
-                    Console.Write("\tPlease enter a number [eg. 1, .5, 130]");
-                    Console.WriteLine();
+                    Console.Write("\tPlease enter a number [eg. 1, .5, 130]:");
                     validResponse = false;
                 }
             } while (!validResponse);
             return validatedDoubleValue;
         }
 
-
-        //static double[] TempConvertToF(double[] tempC)
-        //{
-        //    double[] tempF;
-        //    tempF = (tempC * 1.8) + 32;
-
-        //    return tempF;
-        //}
         #endregion
 
+        /// <summary>
+        /// Methods relating to the Alarm System menu are located here
+        /// </summary>
         #region ALARM SYSTEM
-            /// <summary>
-            /// Gets the desired sensor to monitor from user.
-            /// </summary>
-            /// <returns>'left', 'right', or 'both' string</returns>
+
+        /// <summary>
+        /// Gets the desired sensor to monitor from user.
+        /// </summary>
+        /// <returns>'left', 'right', or 'both' string</returns>
         static string AlarmSystemDisplaySetSensors()
         {
             string sensorsToMonitor = "null";
@@ -568,6 +565,9 @@ namespace Project_FinchControl
                 Console.Write("\tSensors to Monitor [left, right, both]: ");
                 sensorsToMonitor = Console.ReadLine().ToLower();
                 Console.WriteLine();
+                //
+                // Validate and echo user selection
+                //
                 switch (sensorsToMonitor)
                 {
                     case "left":
@@ -600,15 +600,17 @@ namespace Project_FinchControl
         static string AlarmSystemDisplayRangeType()
         {
             string rangeType;
-            bool validResponse;
+            bool validResponse = false;
 
                 DisplayScreenHeader("Range Type");
                 Console.WriteLine();
                 Console.WriteLine("\tPlease choose if you want the finch to stop on a max value or min value");
                 Console.WriteLine();
+                //
+                // Validates and echos range selection
+                //
                 do
                 {
-                    validResponse = true;
                     Console.Write("\tEnter Range Type [Min or Max]: ");
                     rangeType = Console.ReadLine().ToLower();
                     Console.WriteLine();
@@ -650,7 +652,7 @@ namespace Project_FinchControl
             Console.WriteLine();
 
             //
-            // Display ambient values
+            // Display current values from selected sensors
             //
             switch (sensorsToMonitor)
             {
@@ -679,7 +681,7 @@ namespace Project_FinchControl
                     break;
             }
             //
-            // Get threshold for user
+            // Get threshold for user, only if a sensor has been set
             //
             if (sensorSet == true)
             {
@@ -689,11 +691,16 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 Console.Write("\tEnter Threshold Value: ");
                 bool validResponse;
+                //
+                // Checks to make sure user set a correct value.
+                //
                 do
                 {
-                    validResponse = true;
-
+                    //
+                    // Gets valid int value.
+                    //
                     thresholdValue = ValidateIntValue();
+
                     if (thresholdValue < 0)
                     {
                         Console.WriteLine("\tThe finch robot only supports values between 0 and 255");
@@ -718,19 +725,20 @@ namespace Project_FinchControl
             DisplayMenuPrompt("Alarm System Menu");
             return thresholdValue;
         }
-
+        /// <summary>
+        /// Gets the time to monitor from the user
+        /// </summary>
+        /// <returns>double value for seconds</returns>
         static double AlarmSystemDisplayTimeToMonitor()
         {
             double timeToMonitor = 0;
 
             DisplayScreenHeader("Time to Monitor");
-
-            //
-            //TODO Validate Input, convert from seconds to ms
-            //
             Console.Write("\tEnter Time to Monitor in seconds [eg. 1.2, 0.2, 12]: ");
+            //
+            // Gets a valid double value from method
+            //
             timeToMonitor = ValidateDoubleValue();
-
 
             Console.WriteLine();
             Console.WriteLine($"\tYou have entered {timeToMonitor} seconds for Time to Record");
@@ -738,7 +746,14 @@ namespace Project_FinchControl
             DisplayMenuPrompt("Alarm System Menu");
             return timeToMonitor;
         }
-
+        /// <summary>
+        /// Sets an alarm based on set values
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
+        /// <param name="sensorsToMonitor">Sensors to monitor.</param>
+        /// <param name="rangeType">Range type.</param>
+        /// <param name="minMaxThresholdValue">Minimum max threshold value.</param>
+        /// <param name="timeToMonitor">Time to monitor.</param>
         static void AlarmSystemDisplaySetAlarm(Finch finchRobot, string sensorsToMonitor, string rangeType, int minMaxThresholdValue, double timeToMonitor)
         {
             bool thresholdExceeded = false;
@@ -770,7 +785,9 @@ namespace Project_FinchControl
                 isValuesSet = false;
                 Console.WriteLine("\tNo Time to Monitor value set");
             }
-
+            //
+            // Proceeds if required values are set.
+            //
             if (isValuesSet == true)
             {
                 Console.WriteLine();
@@ -792,7 +809,9 @@ namespace Project_FinchControl
                 {
                     leftLightSensor = finchRobot.getLeftLightSensor();
                     rightLightSensor = finchRobot.getRightLightSensor();
-
+                    //
+                    // Records data based on selected sensor and checks against time value and threshold, falls out if either exceed.
+                    //
                     switch (sensorsToMonitor)
                     {
                         case "left":
@@ -856,7 +875,9 @@ namespace Project_FinchControl
                     finchRobot.wait(1000);
 
                 } while (!thresholdExceeded && secondsElapsed < timeToMonitor && isValuesSet == true);
-
+                //
+                // Exit output based on Alarm trip reason
+                //
                 if (thresholdExceeded)
                 {
                     Console.WriteLine();
@@ -904,42 +925,6 @@ namespace Project_FinchControl
 
             }
         }
-
-        //static int[] DataRecorderGetLight(int numberOfDataPoints, double dataPointFrequency, Finch finchRobot)
-        //{
-        //    int[] lightData = new int[numberOfDataPoints];
-        //    int dataPointFreqMs;
-        //    //
-        //    // Convert the freq in seconds to ms
-        //    //
-        //    dataPointFreqMs = (int)(dataPointFrequency * 1000);
-        //    DisplayScreenHeader("Light Data");
-        //    Console.WriteLine();
-        //    Console.WriteLine($"\tThe Finch robot will now record light data for {numberOfDataPoints} number of times, {dataPointFrequency} seconds apart");
-        //    Console.WriteLine("Press any key to being");
-        //    Console.ReadLine();
-
-        //    for (int i = 0; i < numberOfDataPoints; i++)
-        //    {
-        //        lightData[i] = finchRobot.getLightSensors();
-        //        //
-        //        // Echo new temp
-        //        //
-        //        Console.WriteLine($"\tLight Data: {i + 1}: {lightData[i]:n1}");
-        //        finchRobot.wait(dataPointFreqMs);
-
-        //    }
-
-        //    //
-        //    // Display table of temps
-        //    //
-        //    Console.WriteLine();
-        //    DisplayDataRecorderDataTable(lightData);
-        //    DisplayMenuPrompt("Data Recorder Menu");
-
-        //    return lightData;
-        //}
-
         /// <summary>
         /// Displays the last data recording to the user
         /// </summary>
@@ -1383,7 +1368,6 @@ namespace Project_FinchControl
 
         #endregion
 
-
         #region FINCH ROBOT MANAGEMENT
 
         /// <summary>
@@ -1562,7 +1546,6 @@ namespace Project_FinchControl
             return robotConnected;
         }
         #endregion
-
 
         #region USER INTERFACE
         /// <summary>
