@@ -437,6 +437,23 @@ namespace Project_FinchControl
             finchRobot.wait(500);
         }
         /// <summary>
+        /// Warning Light Blink loop
+        /// </summary>
+        /// <param name="finchRobot">Finch robot.</param>
+        /// <param name="loops">Number of loops.</param>
+        static void WarningBlink(Finch finchRobot, int loops)
+        {
+            finchRobot.setLED(0, 0, 0);
+            finchRobot.noteOff();
+            for (int i = 0; i < loops; i++)
+            {
+                finchRobot.setLED(255, 0, 0);
+                finchRobot.wait(500);
+                finchRobot.setLED(0, 0, 0);
+                finchRobot.wait(300);
+            }
+        }
+        /// <summary>
         /// Rests the finch.
         /// </summary>
         /// <param name="finchRobot">Finch robot.</param>
@@ -457,7 +474,6 @@ namespace Project_FinchControl
             bool right;
             bool isObject = false;
             string where = "null";
-
                 left = finchRobot.isObstacleLeftSide();
                 right = finchRobot.isObstacleRightSide();
                 if (left == true)
@@ -476,7 +492,10 @@ namespace Project_FinchControl
                 where = "clear";
                 return (isObject, where);
         }
-
+        /// <summary>
+        /// Takes a string and parses it into an int value;
+        /// </summary>
+        /// <returns>sting to int</returns>
         static int ValidateIntValue()
         {
             int validatedIntValue;
@@ -497,7 +516,10 @@ namespace Project_FinchControl
             } while (!validResponse);
             return validatedIntValue;
         }
-
+        /// <summary>
+        /// Takes a string and converts it to a double value
+        /// </summary>
+        /// <returns>string to double</returns>
         static double ValidateDoubleValue()
         {
             double validatedDoubleValue;
@@ -530,6 +552,20 @@ namespace Project_FinchControl
         #endregion
 
         #region ALARM SYSTEM
+
+            static bool AlarmSystemIsValuesSet(bool sensorSelected, bool timeSet, bool thresholdSet, bool thresholdValueSet, bool rangeSet)
+        {
+            bool valuesSet = false;
+            if (sensorSelected & timeSet & thresholdSet & thresholdValueSet & rangeSet)
+            {
+                valuesSet = true;
+            }
+            else
+            {
+                valuesSet = false;
+            }
+            return valuesSet;
+        }
 
         static string AlarmSystemDisplaySetSensors()
         {
@@ -570,7 +606,7 @@ namespace Project_FinchControl
                 }
             } while (!validResponse);
 
-
+            AlarmSystemIsValuesSet(true, false, false, false, false);
             DisplayMenuPrompt("Alarm System Menu");
             return sensorsToMonitor;
         }
@@ -578,37 +614,47 @@ namespace Project_FinchControl
         static string AlarmSystemDisplayRangeType()
         {
             string rangeType = "null";
-            bool validResponse;
-
-            DisplayScreenHeader("Range Type");
-            //
-            //TODO validate user input
-            //
-            Console.WriteLine();
-            Console.WriteLine("\tPlease choose if you want the finch to stop on a max value or min value");
-            Console.WriteLine();
-            do
+            if (AlarmSystemIsValuesSet(false, false, false, false, false))
             {
-                validResponse = true;
-                Console.Write("\tEnter Range Type [Min or Max]: ");
-                rangeType = Console.ReadLine().ToLower();
+                Console.WriteLine("Please enter a sensor to monitor before setting a Range Type");
+            }
+            else
+            {
+
+
+               
+                bool validResponse;
+
+                DisplayScreenHeader("Range Type");
+                //
+                //TODO validate user input
+                //
                 Console.WriteLine();
-                switch (rangeType)
+                Console.WriteLine("\tPlease choose if you want the finch to stop on a max value or min value");
+                Console.WriteLine();
+                do
                 {
-                    case "min":
-                        Console.WriteLine("\tMin selected for range type");
-                        validResponse = true;
-                        break;
-                    case "max":
-                        Console.WriteLine("\tMax Selected for range type");
-                        validResponse = true;
-                        break;
-                    default:
-                        validResponse = false;
-                        Console.WriteLine("\tPlease enter a value of [ Min or Max ]");
-                        break;
-                }
-            } while (!validResponse);
+                    validResponse = true;
+                    Console.Write("\tEnter Range Type [Min or Max]: ");
+                    rangeType = Console.ReadLine().ToLower();
+                    Console.WriteLine();
+                    switch (rangeType)
+                    {
+                        case "min":
+                            Console.WriteLine("\tMin selected for range type");
+                            validResponse = true;
+                            break;
+                        case "max":
+                            Console.WriteLine("\tMax Selected for range type");
+                            validResponse = true;
+                            break;
+                        default:
+                            validResponse = false;
+                            Console.WriteLine("\tPlease enter a value of [ Min or Max ]");
+                            break;
+                    }
+                } while (!validResponse);
+            }
 
             DisplayMenuPrompt("Alarm System Menu");
             return rangeType;
@@ -836,7 +882,9 @@ namespace Project_FinchControl
             if (thresholdExceeded)
             {
                 Console.WriteLine();
+                WarningBlink(finchRobot, 3);
                 Console.WriteLine($"\t!Threshold Exceeded! The light value surpassed the set Threshold");
+                WarningBeep(finchRobot);
                 Console.WriteLine();
             }
             if (secondsElapsed >= timeToMonitor)
