@@ -704,7 +704,10 @@ namespace Project_FinchControl
                         Console.WriteLine("\tThe finch robot only supports values between 0 and 255");
                         validResponse = false;
                     }
-                    validResponse = true;
+                    else
+                    {
+                        validResponse = true;
+                    }
 
                 } while (!validResponse);
             }
