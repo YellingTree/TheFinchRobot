@@ -847,11 +847,12 @@ namespace Project_FinchControl
                             Console.WriteLine();
                             Console.WriteLine("\tError, did you set a sensor to monitor?");
                             Console.WriteLine();
+                            isValuesSet = false;
                             break;
                     }
                     finchRobot.wait(1000);
 
-                } while (!thresholdExceeded && secondsElapsed < timeToMonitor);
+                } while (!thresholdExceeded && secondsElapsed < timeToMonitor && isValuesSet == true);
 
                 if (thresholdExceeded)
                 {
