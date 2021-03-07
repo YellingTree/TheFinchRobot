@@ -822,7 +822,7 @@ namespace Project_FinchControl
                             //
                             // This is a really bad way to do this, but it might work for now.
                             //
-                            Console.SetCursorPosition(1, 12);
+                            Console.SetCursorPosition(1, 11);
                             secondsElapsed++;
                             if (rangeType == "min")
                             {
