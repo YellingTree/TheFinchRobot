@@ -881,6 +881,7 @@ namespace Project_FinchControl
                     tempSensor = finchRobot.getTemperature();
                     //
                     // Records data based on selected sensor and checks against time value and threshold, falls out if either exceed.
+                    //
                     switch (sensorsToMonitor)
                     {
                         case "left":
@@ -959,7 +960,7 @@ namespace Project_FinchControl
                             break;
 
                         case "all":
-                            Console.WriteLine($"\tCurrent Recorded Values: Temp-{tempSensor:n1}° C, R-Light Sensor: {rightLightSensor} L-Light Sensor: {leftLightSensor}");
+                            Console.WriteLine($"\tCurrent Recorded Values: Temp-{tempSensor:n1}° C, R-Light Sensor-{rightLightSensor}, L-Light Sensor-{leftLightSensor}");
                             Console.SetCursorPosition(1, 12);
                             if (rangeType == "min")
                             {
@@ -993,6 +994,7 @@ namespace Project_FinchControl
                 if (thresholdExceeded)
                 {
                     Console.WriteLine();
+                    Console.WriteLine();
                     Console.WriteLine($"\t!Threshold Exceeded! The recorded value surpassed the set Threshold");
                     WarningBeep(finchRobot);
                     WarningBlink(finchRobot, 2);
@@ -1000,6 +1002,7 @@ namespace Project_FinchControl
                 }
                 if (secondsElapsed >= timeToMonitor)
                 {
+                    Console.WriteLine();
                     Console.WriteLine();
                     Console.WriteLine("\tTime limit reached, stopping recording");
                     Console.WriteLine();
