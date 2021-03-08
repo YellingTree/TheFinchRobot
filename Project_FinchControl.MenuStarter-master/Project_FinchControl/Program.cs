@@ -541,6 +541,28 @@ namespace Project_FinchControl
             } while (!validResponse);
             return validatedDoubleValue;
         }
+        /// <summary>
+        /// Validates a string value by returning true if valid false if invalid
+        /// </summary>
+        /// <returns><c>true</c>, if string is valid, <c>false</c> otherwise.</returns>
+        /// <param name="unvalidatedString">Unvalidated string.</param>
+        /// <param name="validAnwser">Valid anwser.</param>
+        static bool IsStringValid(string unvalidatedString, string validAnwser)
+        {
+            bool validatedStringValue;
+            unvalidatedString = unvalidatedString.ToLower();
+
+            if (unvalidatedString == validAnwser)
+            {
+                validatedStringValue = true;
+            }
+            else
+            {
+                validatedStringValue = false;
+            }
+
+            return validatedStringValue;
+        }
 
         #endregion
 
@@ -562,7 +584,7 @@ namespace Project_FinchControl
             do
             {
                 validResponse = true;
-                Console.Write("\tSensors to Monitor [left, right, both]: ");
+                Console.Write("\tSensors to Monitor [left, right, both, temp]: ");
                 sensorsToMonitor = Console.ReadLine().ToLower();
                 Console.WriteLine();
                 //
@@ -582,6 +604,11 @@ namespace Project_FinchControl
 
                     case "both":
                         Console.WriteLine("\tBoth Sensors Selected");
+                        validResponse = true;
+                        break;
+
+                    case "temp":
+                        Console.WriteLine("\tTemperature Sensor Selected");
                         validResponse = true;
                         break;
                     default:
@@ -645,7 +672,9 @@ namespace Project_FinchControl
             int thresholdValue = -1;
             int currentLeftSensorValue = finchRobot.getLeftLightSensor();
             int currentRightSensorValue = finchRobot.getRightLightSensor();
+            double currentTemp = finchRobot.getTemperature();
             bool sensorSet;
+            bool recordingTemp;
 
             DisplayScreenHeader("Threshold Value");
             Console.WriteLine();
@@ -660,12 +689,14 @@ namespace Project_FinchControl
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
                     Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentLeftSensorValue}");
                     sensorSet = true;
+                    recordingTemp = false;
                     break;
 
                 case "right":
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
                     Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentRightSensorValue}");
                     sensorSet = true;
+                    recordingTemp = false;
                     break;
 
                 case "both":
@@ -673,54 +704,75 @@ namespace Project_FinchControl
                     Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentRightSensorValue}");
                     Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentLeftSensorValue}");
                     sensorSet = true;
+                    recordingTemp = false;
+                    break;
+
+                case "temp":
+                    Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
+                    Console.WriteLine($"Current Temperature Value: {currentTemp}");
+                    sensorSet = true;
+                    recordingTemp = true;
                     break;
 
                 default:
                     Console.WriteLine("\tUnknown Sensor Reference");
                     sensorSet = false;
+                    recordingTemp = false;
                     break;
             }
             //
             // Get threshold for user, only if a sensor has been set
             //
-            if (sensorSet == true)
+            if (!recordingTemp)
             {
-                Console.WriteLine();
-                Console.WriteLine("\tPlease note the light sensors of the finch robot supports values of 0(dark) to 255(bright)");
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.Write("\tEnter Threshold Value: ");
-                bool validResponse;
-                //
-                // Checks to make sure user set a correct value.
-                //
-                do
+
+
+                if (sensorSet == true)
                 {
+                    Console.WriteLine();
+                    Console.WriteLine("\tPlease note the light sensors of the finch robot supports values of 0(dark) to 255(bright)");
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.Write("\tEnter Threshold Value: ");
+                    bool validResponse;
                     //
-                    // Gets valid int value.
+                    // Checks to make sure user set a correct value.
                     //
-                    thresholdValue = ValidateIntValue();
+                    do
+                    {
+                        //
+                        // Gets valid int value.
+                        //
+                        thresholdValue = ValidateIntValue();
 
-                    if (thresholdValue < 0)
-                    {
-                        Console.WriteLine("\tThe finch robot only supports values between 0 and 255");
-                        validResponse = false;
-                    }
-                    if (thresholdValue > 255)
-                    {
-                        Console.WriteLine("\tThe finch robot only supports values between 0 and 255");
-                        validResponse = false;
-                    }
-                    else
-                    {
-                        validResponse = true;
-                    }
+                        if (thresholdValue < 0)
+                        {
+                            Console.WriteLine("\tThe finch robot only supports values between 0 and 255");
+                            validResponse = false;
+                        }
+                        if (thresholdValue > 255)
+                        {
+                            Console.WriteLine("\tThe finch robot only supports values between 0 and 255");
+                            validResponse = false;
+                        }
+                        else
+                        {
+                            validResponse = true;
+                        }
 
-                } while (!validResponse);
+                    } while (!validResponse);
+                }
+                else
+                {
+                    Console.WriteLine("\tNo data recorded, please set a sensor to monitor");
+                }
             }
             else
             {
-                Console.WriteLine("\tNo data recorded, please set a sensor to monitor");
+                Console.WriteLine();
+                Console.WriteLine("\tPlease select a temperature for the threshold value");
+                Console.WriteLine("\tNote: Finch temperatures are recorded in C°");
+                thresholdValue = ValidateIntValue();
             }
             DisplayMenuPrompt("Alarm System Menu");
             return thresholdValue;
@@ -761,6 +813,7 @@ namespace Project_FinchControl
             int leftLightSensor;
             int rightLightSensor;
             bool isValuesSet = true;
+            double tempSensor;
             DisplayScreenHeader("Set Alarm");
             //
             // Check for default values, warn user that values are not set.
@@ -791,7 +844,7 @@ namespace Project_FinchControl
             if (isValuesSet == true)
             {
                 Console.WriteLine();
-                Console.WriteLine($"\tMonitored Light Sensor: {sensorsToMonitor}");
+                Console.WriteLine($"\tMonitored Sensor: {sensorsToMonitor}");
                 Console.WriteLine($"\tRange Type: {rangeType}");
                 Console.WriteLine($"\tThreshold Value: {minMaxThresholdValue}");
                 Console.WriteLine($"\tMonitoring Time: {timeToMonitor} seconds");
@@ -810,11 +863,9 @@ namespace Project_FinchControl
                 {
                     leftLightSensor = finchRobot.getLeftLightSensor();
                     rightLightSensor = finchRobot.getRightLightSensor();
+                    tempSensor = finchRobot.getTemperature();
                     //
                     // Records data based on selected sensor and checks against time value and threshold, falls out if either exceed.
-                    //
-                    // TODO: Update Current Recorded Value CW to refresh line rather than printing a new line.
-                    //
                     switch (sensorsToMonitor)
                     {
                         case "left":
@@ -875,6 +926,26 @@ namespace Project_FinchControl
                             }
                             break;
 
+                        case "temp":
+                            Console.WriteLine($"\t Current Recorded Temperature: {tempSensor}");
+                            Console.SetCursorPosition(1, 12);
+                            secondsElapsed++;
+                            if (rangeType == "min")
+                            {
+                                if (tempSensor > minMaxThresholdValue)
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            else
+                            {
+                                if (tempSensor <= minMaxThresholdValue)
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            break;
+
                         default:
                             Console.WriteLine();
                             Console.WriteLine("\tError, did you set a sensor to monitor?");
@@ -891,7 +962,7 @@ namespace Project_FinchControl
                 if (thresholdExceeded)
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"\t!Threshold Exceeded! The light value surpassed the set Threshold");
+                    Console.WriteLine($"\t!Threshold Exceeded! The recorded value surpassed the set Threshold");
                     WarningBeep(finchRobot);
                     WarningBlink(finchRobot, 2);
                     Console.WriteLine();
