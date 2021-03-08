@@ -535,7 +535,7 @@ namespace Project_FinchControl
                 if (!double.TryParse(userInput, out validatedDoubleValue))
                 {
                     Console.WriteLine();
-                    Console.Write("\tPlease enter a number [eg. 1, .5, 130]:");
+                    Console.Write("\tPlease enter a number [eg. 1, .5, 130]: ");
                     validResponse = false;
                 }
             } while (!validResponse);
@@ -709,7 +709,7 @@ namespace Project_FinchControl
 
                 case "temp":
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
-                    Console.WriteLine($"Current Temperature Value: {currentTemp}");
+                    Console.WriteLine($"Current Temperature Value: {currentTemp:n1}");
                     sensorSet = true;
                     recordingTemp = true;
                     break;
@@ -772,6 +772,7 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 Console.WriteLine("\tPlease select a temperature for the threshold value");
                 Console.WriteLine("\tNote: Finch temperatures are recorded in C°");
+                Console.Write("\t\tThreshold Value: ");
                 thresholdValue = ValidateIntValue();
             }
             DisplayMenuPrompt("Alarm System Menu");
@@ -786,7 +787,7 @@ namespace Project_FinchControl
             double timeToMonitor = 0;
 
             DisplayScreenHeader("Time to Monitor");
-            Console.Write("\tEnter Time to Monitor in seconds [eg. 1.2, 0.2, 12]: ");
+            Console.Write("\tEnter Time to Monitor in seconds: ");
             //
             // Gets a valid double value from method
             //
@@ -927,7 +928,7 @@ namespace Project_FinchControl
                             break;
 
                         case "temp":
-                            Console.WriteLine($"\t Current Recorded Temperature: {tempSensor}");
+                            Console.WriteLine($"\t Current Recorded Temperature: {tempSensor:n1}");
                             Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
