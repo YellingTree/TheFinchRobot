@@ -6,6 +6,13 @@ using System.Windows.Input;
 
 namespace Project_FinchControl
 {
+    public enum Fruit
+    {
+        apple,
+        orange,
+        bannana,
+        strawberry
+    }
 
     // **************************************************
     //
@@ -63,6 +70,7 @@ namespace Project_FinchControl
                 Console.WriteLine("\td) Alarm System");
                 Console.WriteLine("\te) Sensor Testing");
                 Console.WriteLine("\tf) Disconnect Finch Robot");
+                Console.WriteLine("\tg) Testing Code Zone");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -93,6 +101,10 @@ namespace Project_FinchControl
 
                     case "f":
                         DisplayDisconnectFinchRobot(finchRobot);
+                        break;
+
+                    case "g":
+                        TestingZone();
                         break;
 
                     case "q":
@@ -1731,6 +1743,90 @@ namespace Project_FinchControl
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.BackgroundColor = ConsoleColor.DarkGray;
+        }
+        #endregion
+        //
+        // Area for testing code, no section should rely on the code in this region.
+        //
+        #region TESTING ZONE
+        static void TestingZone()
+        {
+            List<Fruit> fruits = null;
+            fruits = DisplayGetFruits();
+            //fruits.Add("Bannana");
+            //fruits.Add("Apple");
+            //fruits.Add("Star Fruit");
+            //fruits.Add("Orange");
+
+            //fruits.Remove("Apple");
+            //fruits.Add("Strawberry");
+
+            DisplayFruits(fruits);
+            DisplayContinuePrompt();
+
+        }
+
+        static void DisplayFruits(List<Fruit> fruits)
+        {
+            Console.WriteLine();
+            DisplayScreenHeader("Display Fruits");
+            Console.WriteLine();
+
+            foreach (var fruit in fruits)
+            {
+                Console.WriteLine("\t" + fruit);
+            }
+
+        }
+
+        static List<Fruit> DisplayGetFruits()
+        {
+            string userResponse = "";
+            List<Fruit> fruits = new List<Fruit>();
+            Fruit userFruits;
+            bool isDone = false;
+            Console.WriteLine();
+            DisplayScreenHeader("Get Fruits");
+
+            do
+            {
+                Console.WriteLine("\tEnter Fruit: ");
+                userResponse = Console.ReadLine();
+                Enum.TryParse(userResponse, out userFruits);
+                if (userResponse != "done")
+                {
+                    if (Enum.TryParse(userResponse, out userFruits))
+                    {
+                        fruits.Add(userFruits);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tPlease enter supported values only []");
+                        foreach (string fruitName in Enum.GetNames(typeof(Fruit)))
+                        {
+                            Console.WriteLine(fruitName + " | ");
+                        }
+                    }
+                }
+                else
+                {
+                    isDone = true;
+                }
+            } while (!isDone);
+            //while (userResponse != "done")
+            //{
+            //    Console.WriteLine("\tEnter Fruit: ");
+            //    userResponse = Console.ReadLine();
+            //    fruits.Add(userResponse);
+            //}
+            //if (userResponse == "done")
+            //{
+            //    fruits.Remove("Done");
+            //}
+
+            DisplayContinuePrompt();
+
+            return fruits;
         }
         #endregion
     }
