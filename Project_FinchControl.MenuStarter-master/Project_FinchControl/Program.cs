@@ -362,8 +362,6 @@ namespace Project_FinchControl
                 Console.WriteLine("\tc) Set Min/Max Threshold Value");
                 Console.WriteLine("\td) Set Time to Monitor");
                 Console.WriteLine("\te) Set Alarm");
-                Console.WriteLine("\tf) N/A");
-                Console.WriteLine("\tg) N/A");
                 Console.WriteLine("\tq) Main Menu");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -394,14 +392,6 @@ namespace Project_FinchControl
 
                     case "e":
                         AlarmSystemDisplaySetAlarm(finchRobot, sensorsToMonitor, rangeType, minMaxThresholdValue, timeToMonitor);
-                        break;
-
-                    case "f":
-
-                        break;
-
-                    case "g":
-
                         break;
 
                     default:
