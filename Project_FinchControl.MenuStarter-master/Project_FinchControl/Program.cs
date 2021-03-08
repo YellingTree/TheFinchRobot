@@ -880,7 +880,7 @@ namespace Project_FinchControl
                     {
                         case "left":
 
-                            Console.WriteLine($"\tCurrent Recorded Value on Left Sensor: {leftLightSensor}");
+                            Console.WriteLine($"\tCurrent Recorded Value on Left Sensor: {leftLightSensor}   ");
                             //
                             // This is a really bad way to do this, but it might work for now.
                             //
@@ -900,7 +900,7 @@ namespace Project_FinchControl
                             break;
 
                         case "right":
-                            Console.WriteLine($"\tCurrent Recorded Value on Right Sensor: {rightLightSensor}");
+                            Console.WriteLine($"\tCurrent Recorded Value on Right Sensor: {rightLightSensor}   ");
                             Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
@@ -917,7 +917,7 @@ namespace Project_FinchControl
                             break;
 
                         case "both":
-                            Console.WriteLine($"\tCurrent Recorded Value: Left: {leftLightSensor} Right: {rightLightSensor}");
+                            Console.WriteLine($"\tCurrent Recorded Value: Left: {leftLightSensor} Right: {rightLightSensor}   ");
                             Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
@@ -954,7 +954,7 @@ namespace Project_FinchControl
                             break;
 
                         case "all":
-                            Console.WriteLine($"\tCurrent Recorded Values: Temp-{tempSensor:n1}° C, R-Light Sensor-{rightLightSensor}, L-Light Sensor-{leftLightSensor}");
+                            Console.WriteLine($"\tCurrent Recorded Values: Temp-{tempSensor:n1}° C, R-Light Sensor-{rightLightSensor}, L-Light Sensor-{leftLightSensor}  ");
                             Console.SetCursorPosition(1, 12);
                             if (rangeType == "min")
                             {
