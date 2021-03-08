@@ -581,6 +581,8 @@ namespace Project_FinchControl
             bool validResponse;
 
             DisplayScreenHeader("Sensors To Monitor");
+            Console.WriteLine();
+            Console.WriteLine("\tSelectable sesors are the left, right, or both light sensors and the temperature sensor." );
             do
             {
                 validResponse = true;
@@ -612,7 +614,7 @@ namespace Project_FinchControl
                         validResponse = true;
                         break;
                     default:
-                        Console.WriteLine("\tUnknown Sensor value, available values: left, right, both");
+                        Console.WriteLine("\tUnknown Sensor value, available values: left, right, both, or temp");
                         validResponse = false;
                         break;
                 }
@@ -709,7 +711,7 @@ namespace Project_FinchControl
 
                 case "temp":
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
-                    Console.WriteLine($"Current Temperature Value: {currentTemp:n1}");
+                    Console.WriteLine($"\tCurrent Temperature Value: {currentTemp:n1}");
                     sensorSet = true;
                     recordingTemp = true;
                     break;
@@ -772,6 +774,7 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 Console.WriteLine("\tPlease select a temperature for the threshold value");
                 Console.WriteLine("\tNote: Finch temperatures are recorded in C°");
+                Console.WriteLine();
                 Console.Write("\t\tThreshold Value: ");
                 thresholdValue = ValidateIntValue();
             }
@@ -933,14 +936,11 @@ namespace Project_FinchControl
                             secondsElapsed++;
                             if (rangeType == "min")
                             {
-                                if (tempSensor > minMaxThresholdValue)
-                                {
-                                    thresholdExceeded = true;
-                                }
+                                thresholdExceeded = (tempSensor <= minMaxThresholdValue);
                             }
                             else
                             {
-                                if (tempSensor <= minMaxThresholdValue)
+                                if (tempSensor > minMaxThresholdValue)
                                 {
                                     thresholdExceeded = true;
                                 }
