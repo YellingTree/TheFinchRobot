@@ -956,6 +956,7 @@ namespace Project_FinchControl
                         case "all":
                             Console.WriteLine($"\tCurrent Recorded Values: Temp-{tempSensor:n1}° C, R-Light Sensor-{rightLightSensor}, L-Light Sensor-{leftLightSensor}  ");
                             Console.SetCursorPosition(1, 12);
+                            secondsElapsed++;
                             if (rangeType == "min")
                             {
                                 if ( (leftLightSensor <= minMaxThresholdValue) || (rightLightSensor <= minMaxThresholdValue) || (tempSensor <= minMaxThresholdValue) )
