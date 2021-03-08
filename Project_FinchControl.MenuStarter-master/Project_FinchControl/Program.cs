@@ -594,11 +594,12 @@ namespace Project_FinchControl
 
             DisplayScreenHeader("Sensors To Monitor");
             Console.WriteLine();
-            Console.WriteLine("\tSelectable sesors are the left, right, or both light sensors and the temperature sensor." );
+            Console.WriteLine("\tSelectable sesors are the left, right, or both light sensors, the temperature sensor or all sensors." );
+            Console.WriteLine();
             do
             {
                 validResponse = true;
-                Console.Write("\tSensors to Monitor [left, right, both, temp]: ");
+                Console.Write("\tSensors to Monitor [left, right, both, temp, all]: ");
                 sensorsToMonitor = Console.ReadLine().ToLower();
                 Console.WriteLine();
                 //
@@ -625,8 +626,13 @@ namespace Project_FinchControl
                         Console.WriteLine("\tTemperature Sensor Selected");
                         validResponse = true;
                         break;
+
+                    case "all":
+                        Console.WriteLine("\tAll Sensors Selected for monitoring");
+                        validResponse = true;
+                        break;
                     default:
-                        Console.WriteLine("\tUnknown Sensor value, available values: left, right, both, or temp");
+                        Console.WriteLine("\tUnknown Sensor value, available values: left, right, both, temp, or all");
                         validResponse = false;
                         break;
                 }
@@ -688,7 +694,6 @@ namespace Project_FinchControl
             int currentRightSensorValue = finchRobot.getRightLightSensor();
             double currentTemp = finchRobot.getTemperature();
             bool sensorSet;
-            bool recordingTemp;
 
             DisplayScreenHeader("Threshold Value");
             Console.WriteLine();
@@ -701,50 +706,53 @@ namespace Project_FinchControl
             {
                 case "left":
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
-                    Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentLeftSensorValue}");
+                    Console.WriteLine($"\tCurrent Left Sensor Value: {currentLeftSensorValue}");
                     sensorSet = true;
-                    recordingTemp = false;
                     break;
 
                 case "right":
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
-                    Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentRightSensorValue}");
+                    Console.WriteLine($"\tCurrent Right Sensor Value: {currentRightSensorValue}");
                     sensorSet = true;
-                    recordingTemp = false;
                     break;
 
                 case "both":
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
-                    Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentRightSensorValue}");
-                    Console.WriteLine($"\tCurrent {sensorsToMonitor} Sensor Value: {currentLeftSensorValue}");
+                    Console.WriteLine($"\tCurrent Right Sensor Value: {currentRightSensorValue}");
+                    Console.WriteLine($"\tCurrent Left Sensor Value: {currentLeftSensorValue}");
                     sensorSet = true;
-                    recordingTemp = false;
                     break;
 
                 case "temp":
                     Console.WriteLine($"\tCurrent selected Range Type: {rangeType}");
-                    Console.WriteLine($"\tCurrent Temperature Value: {currentTemp:n1}");
+                    Console.WriteLine($"\tCurrent Temperature Value: {currentTemp:n1}° C");
                     sensorSet = true;
-                    recordingTemp = true;
+                    break;
+
+                case "all":
+                    Console.WriteLine($"\tCurrent Range Type: {rangeType}");
+                    Console.WriteLine($"\tCurrent Temerature Value: {currentTemp:n1}° C");
+                    Console.WriteLine($"\tCurrent Right Light Sensor Value: {currentRightSensorValue}");
+                    Console.WriteLine($"\tCurrent Left Light Sensor Value: {currentLeftSensorValue}");
+                    sensorSet = true;
+
                     break;
 
                 default:
                     Console.WriteLine("\tUnknown Sensor Reference");
                     sensorSet = false;
-                    recordingTemp = false;
                     break;
             }
             //
             // Get threshold for user, only if a sensor has been set
             //
-            if (!recordingTemp)
-            {
 
 
                 if (sensorSet == true)
                 {
                     Console.WriteLine();
                     Console.WriteLine("\tPlease note the light sensors of the finch robot supports values of 0(dark) to 255(bright)");
+                    Console.WriteLine("\tand the temprature recorded from the finch is in C°");
                     Console.WriteLine();
                     Console.WriteLine();
                     Console.Write("\tEnter Threshold Value: ");
@@ -780,16 +788,7 @@ namespace Project_FinchControl
                 {
                     Console.WriteLine("\tNo data recorded, please set a sensor to monitor");
                 }
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("\tPlease select a temperature for the threshold value");
-                Console.WriteLine("\tNote: Finch temperatures are recorded in C°");
-                Console.WriteLine();
-                Console.Write("\t\tThreshold Value: ");
-                thresholdValue = ValidateIntValue();
-            }
+
             DisplayMenuPrompt("Alarm System Menu");
             return thresholdValue;
         }
@@ -943,16 +942,35 @@ namespace Project_FinchControl
                             break;
 
                         case "temp":
-                            Console.WriteLine($"\t Current Recorded Temperature: {tempSensor:n1}");
+                            Console.WriteLine($"\tCurrent Recorded Temperature: {tempSensor:n1}");
                             Console.SetCursorPosition(1, 12);
                             secondsElapsed++;
                             if (rangeType == "min")
                             {
                                 thresholdExceeded = (tempSensor <= minMaxThresholdValue);
                             }
-                            else
+                            else // Max
                             {
                                 if (tempSensor > minMaxThresholdValue)
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            break;
+
+                        case "all":
+                            Console.WriteLine($"\tCurrent Recorded Values: Temp-{tempSensor:n1}° C, R-Light Sensor: {rightLightSensor} L-Light Sensor: {leftLightSensor}");
+                            Console.SetCursorPosition(1, 12);
+                            if (rangeType == "min")
+                            {
+                                if ( (leftLightSensor <= minMaxThresholdValue) || (rightLightSensor <= minMaxThresholdValue) || (tempSensor <= minMaxThresholdValue) )
+                                {
+                                    thresholdExceeded = true;
+                                }
+                            }
+                            else // Max
+                            {
+                                if ( (leftLightSensor > minMaxThresholdValue) || (rightLightSensor > minMaxThresholdValue) || (tempSensor > minMaxThresholdValue) )
                                 {
                                     thresholdExceeded = true;
                                 }
@@ -1656,7 +1674,7 @@ namespace Project_FinchControl
             Console.WriteLine("\t\tFinch Control");
             Console.WriteLine();
             PrintFinchImage();
-            Console.WriteLine("Created by: Michael Havenga");
+            Console.WriteLine("\tCreated by: Michael Havenga");
 
             DisplayContinuePrompt();
         }
