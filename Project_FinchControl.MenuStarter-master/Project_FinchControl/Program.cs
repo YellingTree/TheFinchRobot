@@ -564,6 +564,18 @@ namespace Project_FinchControl
             return validatedStringValue;
         }
 
+        static void PrintFinchImage()
+        {
+            Console.WriteLine();
+            Console.WriteLine("\t         *  *  "         );
+            Console.WriteLine("\t     * *         *     *");
+            Console.WriteLine("\t   *                ** *");
+            Console.WriteLine("\t *  *                  *");
+            Console.WriteLine("\t**    **************** *");
+            Console.WriteLine("\t  ***                 * ");
+            Console.WriteLine();
+        }
+
         #endregion
 
         /// <summary>
@@ -1643,6 +1655,8 @@ namespace Project_FinchControl
             Console.WriteLine();
             Console.WriteLine("\t\tFinch Control");
             Console.WriteLine();
+            PrintFinchImage();
+            Console.WriteLine("Created by: Michael Havenga");
 
             DisplayContinuePrompt();
         }
