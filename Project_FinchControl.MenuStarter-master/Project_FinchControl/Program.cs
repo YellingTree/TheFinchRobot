@@ -75,9 +75,10 @@ namespace Project_FinchControl
                 Console.WriteLine("\tb) Talent Show");
                 Console.WriteLine("\tc) Data Recorder");
                 Console.WriteLine("\td) Alarm System");
-                Console.WriteLine("\te) Sensor Testing");
-                Console.WriteLine("\tf) Testing Code Zone");
-                Console.WriteLine("\tg) Disconnect Finch Robot");
+                Console.WriteLine("\te) User Programming");
+                Console.WriteLine("\tf) Sensor Testing");
+                Console.WriteLine("\tg) Testing Code Zone");
+                Console.WriteLine("\th) Disconnect Finch Robot");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -103,15 +104,18 @@ namespace Project_FinchControl
                         break;
 
                     case "e":
+                        UserProgrammingDisplayMenuScreen(finchRobot);
+                        break;
+
+                    case "f":
                         DisplaySensorTesting(finchRobot);
                         break;
 
                     case "g":
-                        DisplayDisconnectFinchRobot(finchRobot);
                         break;
 
-                    case "f":
-                        //TestingZone();
+                    case "h":
+                        DisplayDisconnectFinchRobot(finchRobot);
                         break;
 
                     case "q":
