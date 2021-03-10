@@ -693,24 +693,36 @@ namespace Project_FinchControl
                         {
                             Console.Write("\tPlease enter your desired motor speed: ");
                             motorSpeed = ValidateIntValue();
-                            if (motorSpeed > 255) // Over Max
+                            if (motorSpeed > 255 || motorSpeed < -255)
                             {
-                                Console.WriteLine("\tValue is larger than max supported value, please set a different number");
+                                Console.WriteLine("\tSet value is outside of the supported range (-255 to 255)");
                                 DisplayContinuePrompt();
                                 validSpeed = false;
                             }
-                            if (motorSpeed < -255) // Under Min
+                            else
                             {
-                                Console.WriteLine("\tValue is smaller than the smallest supported number");
-                                DisplayContinuePrompt();
-                                validSpeed = false;
-                            }
-                            else // Proper Value
-                            {
-                                Console.WriteLine($"\tValue set for Motor Speed: {motorSpeed}");
+                                Console.WriteLine($"\tSet Motor Speed value: {motorSpeed}");
                                 DisplayContinuePrompt();
                                 validSpeed = true;
                             }
+                            //if (motorSpeed > 255) // Over Max
+                            //{
+                            //    Console.WriteLine("\tValue is larger than max supported value, please set a different number");
+                            //    DisplayContinuePrompt();
+                            //    validSpeed = false;
+                            //}
+                            //if (motorSpeed < -255) // Under Min
+                            //{
+                            //    Console.WriteLine("\tValue is smaller than the smallest supported number");
+                            //    DisplayContinuePrompt();
+                            //    validSpeed = false;
+                            //}
+                            //else // Proper Value
+                            //{
+                            //    Console.WriteLine($"\tValue set for Motor Speed: {motorSpeed}");
+                            //    DisplayContinuePrompt();
+                            //    validSpeed = true;
+                            //}
                         } while (!validSpeed);
                         break;
 
