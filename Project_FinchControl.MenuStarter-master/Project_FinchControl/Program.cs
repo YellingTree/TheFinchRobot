@@ -657,16 +657,16 @@ namespace Project_FinchControl
             int waitSeconds = 0;
             bool quitMenu = false;
             string userResponse;
-
-            DisplayScreenHeader("Set Command Parameters");
-            Console.WriteLine();
-            Console.WriteLine("\ta) Motor Speed");
-            Console.WriteLine("\tb) Led Brightness");
-            Console.WriteLine("\tc) Wait Time");
-            Console.WriteLine("\tq) Return to Menu");
-            Console.WriteLine();
             do
             {
+                DisplayScreenHeader("Set Command Parameters");
+                Console.WriteLine();
+                Console.WriteLine("\ta) Motor Speed");
+                Console.WriteLine("\tb) Led Brightness");
+                Console.WriteLine("\tc) Wait Time");
+                Console.WriteLine("\tq) Return to Menu");
+                Console.WriteLine();
+
                 Console.Write("\t\tEnter Choice: ");
                 userResponse = Console.ReadLine().ToLower();
                 Console.SetCursorPosition(0, 10);
@@ -689,8 +689,11 @@ namespace Project_FinchControl
                                 Console.WriteLine("\tValue is smaller than the smallest supported number");
                                 validSpeed = false;
                             }
-                            Console.WriteLine($"\tValue set for Motor Speed: {motorSpeed}");
-                            validSpeed = true;
+                            else
+                            {
+                                Console.WriteLine($"\tValue set for Motor Speed: {motorSpeed}");
+                                validSpeed = true;
+                            }
                         } while (!validSpeed);
                         break;
 
@@ -711,8 +714,11 @@ namespace Project_FinchControl
                                 Console.WriteLine("\tThe selected value is smaller than the minimum supported value");
                                 validBrightness = false;
                             }
-                            Console.WriteLine($"\tValue set for LED Brightness: {ledBrightness}");
-                            validBrightness = true;
+                            else
+                            {
+                                Console.WriteLine($"\tValue set for LED Brightness: {ledBrightness}");
+                                validBrightness = true;
+                            }
                         } while (!validBrightness);
                         break;
 
