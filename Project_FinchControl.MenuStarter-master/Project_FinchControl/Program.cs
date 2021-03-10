@@ -6,12 +6,19 @@ using System.Windows.Input;
 
 namespace Project_FinchControl
 {
-    public enum Fruit
+    public enum Command
     {
-        apple,
-        orange,
-        bannana,
-        strawberry
+        NONE,
+        MOVEFORWARD,
+        MOVEBACKWARDS,
+        STOPMOTORS,
+        WAIT,
+        TURNRIGHT,
+        TURNLEFT,
+        LEDON,
+        LEDOFF,
+        GETTEMPERATURE,
+        DONE
     }
 
     // **************************************************
@@ -69,8 +76,8 @@ namespace Project_FinchControl
                 Console.WriteLine("\tc) Data Recorder");
                 Console.WriteLine("\td) Alarm System");
                 Console.WriteLine("\te) Sensor Testing");
-                Console.WriteLine("\tf) Disconnect Finch Robot");
-                Console.WriteLine("\tg) Testing Code Zone");
+                Console.WriteLine("\tf) Testing Code Zone");
+                Console.WriteLine("\tg) Disconnect Finch Robot");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -96,15 +103,15 @@ namespace Project_FinchControl
                         break;
 
                     case "e":
-                        DisplayUserProgramming(finchRobot);
-                        break;
-
-                    case "f":
-                        DisplayDisconnectFinchRobot(finchRobot);
+                        DisplaySensorTesting(finchRobot);
                         break;
 
                     case "g":
-                        TestingZone();
+                        DisplayDisconnectFinchRobot(finchRobot);
+                        break;
+
+                    case "f":
+                        //TestingZone();
                         break;
 
                     case "q":
@@ -283,7 +290,7 @@ namespace Project_FinchControl
         /// Menu screen for Testing Sensors
         /// </summary>
         /// <param name="finchRobot">Finch robot.</param>
-        static void DisplayUserProgramming(Finch finchRobot)
+        static void DisplaySensorTesting(Finch finchRobot)
         {
             Console.CursorVisible = true;
 
@@ -415,6 +422,63 @@ namespace Project_FinchControl
             } while (!quitDataRecorderMenu);
         }
 
+        static void UserProgrammingDisplayMenuScreen(Finch finchRobot)
+        {
+            Console.CursorVisible = true;
+
+            bool quitUserProgramming = false;
+            string menuChoice;
+
+            do
+            {
+                DisplayScreenHeader("User Programming Menu");
+                Console.WriteLine();
+                Console.WriteLine("\t\tPlease note that this area is under development and some feature may be missing or incompleate.");
+
+                //
+                // get user menu choice
+                //
+                Console.WriteLine("\ta) Set Command Parameters");
+                Console.WriteLine("\tb) Add Commands");
+                Console.WriteLine("\tc) View Commands");
+                Console.WriteLine("\td) Execute Commands");
+                Console.WriteLine("\tq) Main Menu");
+                Console.Write("\t\tEnter Choice:");
+                menuChoice = Console.ReadLine().ToLower();
+
+                //
+                // process user menu choice
+                //
+                switch (menuChoice)
+                {
+                    case "a":
+                        UserProgrammingDisplayGetCommandParameters();
+                        break;
+
+                    case "b":
+                        break;
+
+                    case "c":
+                        break;
+
+                    case "d":
+                        break;
+
+                    case "q":
+                        quitUserProgramming = true;
+                        break;
+
+                    default:
+                        Console.WriteLine();
+                        Console.WriteLine("\tPlease enter the letter of a menu option.");
+                        DisplayContinuePrompt();
+                        break;
+                }
+
+            } while (!quitUserProgramming);
+
+        }
+
         #endregion
 
         /// <summary>
@@ -426,7 +490,7 @@ namespace Project_FinchControl
         /// Plays a warning tone to the user
         /// </summary>
         /// <param name="finchRobot">Finch robot.</param>
-        static void WarningBeep(Finch finchRobot) 
+        static void WarningBeep(Finch finchRobot)
         {
             finchRobot.noteOn(262);
             finchRobot.wait(300);
@@ -473,29 +537,29 @@ namespace Project_FinchControl
         /// </summary>
         /// <returns>isObject, where (bool), (string) left, right, clear</returns>
         /// <param name="finchRobot">Finch robot.</param>
-        static (bool isObject, string where)IsObject(Finch finchRobot)
+        static (bool isObject, string where) IsObject(Finch finchRobot)
         {
             bool left;
             bool right;
             bool isObject = false;
             string where = "null";
-                left = finchRobot.isObstacleLeftSide();
-                right = finchRobot.isObstacleRightSide();
-                if (left == true)
-                {
-                    isObject = true;
-                    where = "left";
-                    return (isObject, where);
-                }
-                if (right == true)
-                {
-                    isObject = true;
-                    where = "right";
-                    return (isObject, where);
-                }
-                isObject = false;
-                where = "clear";
+            left = finchRobot.isObstacleLeftSide();
+            right = finchRobot.isObstacleRightSide();
+            if (left == true)
+            {
+                isObject = true;
+                where = "left";
                 return (isObject, where);
+            }
+            if (right == true)
+            {
+                isObject = true;
+                where = "right";
+                return (isObject, where);
+            }
+            isObject = false;
+            where = "clear";
+            return (isObject, where);
         }
         /// <summary>
         /// Takes a string and parses it into an int value;
@@ -569,13 +633,100 @@ namespace Project_FinchControl
         static void PrintFinchImage()
         {
             Console.WriteLine();
-            Console.WriteLine("\t         *  *  "         );
+            Console.WriteLine("\t         *  *  ");
             Console.WriteLine("\t     * *         *     *");
             Console.WriteLine("\t   *                ** *");
             Console.WriteLine("\t *  *                  *");
             Console.WriteLine("\t**    **************** *");
             Console.WriteLine("\t  ***                 * ");
             Console.WriteLine();
+        }
+
+        #endregion
+
+        #region USER PROGRAMMING
+
+        static (int motorSpeed, int ledBrightness, int waitSeconds) UserProgrammingDisplayGetCommandParameters()
+        {
+            int motorSpeed = 0;
+            int ledBrightness = 0;
+            int waitSeconds = 0;
+            bool quitMenu = false;
+            string userResponse;
+
+            DisplayScreenHeader("Set Command Parameters");
+            Console.WriteLine();
+            Console.WriteLine("\ta) Motor Speed");
+            Console.WriteLine("\tb) Led Brightness");
+            Console.WriteLine("\tc) Wait Time");
+            Console.WriteLine("\tq) Return to Menu");
+            Console.WriteLine();
+            do
+            {
+                Console.Write("\t\tEnter Choice: ");
+                userResponse = Console.ReadLine().ToLower();
+                Console.SetCursorPosition(0, 10);
+                switch (userResponse)
+                {
+                    case "a":
+                        bool validSpeed;
+                        Console.WriteLine("\tThe finch robot's motors can be set to values from -255 (Full Reverse) to 255 (Full Forward)");
+                        do
+                        {
+                            Console.Write("\tPlease enter your desired motor speed: ");
+                            motorSpeed = ValidateIntValue();
+                            if (motorSpeed > 255)
+                            {
+                                Console.WriteLine("\tValue is larger than max supported value, please set a different number");
+                                validSpeed = false;
+                            }
+                            if (motorSpeed < -255)
+                            {
+                                Console.WriteLine("\tValue is smaller than the smallest supported number");
+                                validSpeed = false;
+                            }
+                            Console.WriteLine($"\tValue set for Motor Speed: {motorSpeed}");
+                            validSpeed = true;
+                        } while (!validSpeed);
+                        break;
+
+                    case "b":
+                        bool validBrightness;
+                        Console.WriteLine("\tThe finch robot's LED supports values ranging between 0 and 255");
+                        do
+                        {
+                            Console.Write("\tPlease enter the desired led brightness: ");
+                            ledBrightness = ValidateIntValue();
+                            if (ledBrightness > 255)
+                            {
+                                Console.WriteLine("\tThe Selected value is larger than the max supported value");
+                                validBrightness = false;
+                            }
+                            if (ledBrightness < 0)
+                            {
+                                Console.WriteLine("\tThe selected value is smaller than the minimum supported value");
+                                validBrightness = false;
+                            }
+                            Console.WriteLine($"\tValue set for LED Brightness: {ledBrightness}");
+                            validBrightness = true;
+                        } while (!validBrightness);
+                        break;
+
+                    case "c":
+                        Console.WriteLine("Please select a timeframe for the wait command in seconds");
+                        waitSeconds = ValidateIntValue();
+                        break;
+
+                    case "q":
+                        quitMenu = true;
+                        break;
+                    default:
+                        Console.WriteLine("Unknown value, please select an option from the list [a,b,c,q]");
+                        break;
+                }
+            } while (!quitMenu);
+
+            return (motorSpeed, ledBrightness, waitSeconds);
         }
 
         #endregion
@@ -1749,85 +1900,85 @@ namespace Project_FinchControl
         // Area for testing code, no section should rely on the code in this region.
         //
         #region TESTING ZONE
-        static void TestingZone()
-        {
-            List<Fruit> fruits = null;
-            fruits = DisplayGetFruits();
-            //fruits.Add("Bannana");
-            //fruits.Add("Apple");
-            //fruits.Add("Star Fruit");
-            //fruits.Add("Orange");
+        //static void TestingZone()
+        //{
+        //    List<Fruit> fruits = null;
+        //    fruits = DisplayGetFruits();
+        //    //fruits.Add("Bannana");
+        //    //fruits.Add("Apple");
+        //    //fruits.Add("Star Fruit");
+        //    //fruits.Add("Orange");
 
-            //fruits.Remove("Apple");
-            //fruits.Add("Strawberry");
+        //    //fruits.Remove("Apple");
+        //    //fruits.Add("Strawberry");
 
-            DisplayFruits(fruits);
-            DisplayContinuePrompt();
+        //    DisplayFruits(fruits);
+        //    DisplayContinuePrompt();
 
-        }
+        //}
 
-        static void DisplayFruits(List<Fruit> fruits)
-        {
-            Console.WriteLine();
-            DisplayScreenHeader("Display Fruits");
-            Console.WriteLine();
+        //static void DisplayFruits(List<Fruit> fruits)
+        //{
+        //    Console.WriteLine();
+        //    DisplayScreenHeader("Display Fruits");
+        //    Console.WriteLine();
 
-            foreach (var fruit in fruits)
-            {
-                Console.WriteLine("\t" + fruit);
-            }
+        //    foreach (var fruit in fruits)
+        //    {
+        //        Console.WriteLine("\t" + fruit);
+        //    }
 
-        }
+        //}
 
-        static List<Fruit> DisplayGetFruits()
-        {
-            string userResponse = "";
-            List<Fruit> fruits = new List<Fruit>();
-            Fruit userFruits;
-            bool isDone = false;
-            Console.WriteLine();
-            DisplayScreenHeader("Get Fruits");
+        //static List<Fruit> DisplayGetFruits()
+        //{
+        //    string userResponse = "";
+        //    List<Fruit> fruits = new List<Fruit>();
+        //    Fruit userFruits;
+        //    bool isDone = false;
+        //    Console.WriteLine();
+        //    DisplayScreenHeader("Get Fruits");
 
-            do
-            {
-                Console.WriteLine("\tEnter Fruit: ");
-                userResponse = Console.ReadLine();
-                Enum.TryParse(userResponse, out userFruits);
-                if (userResponse != "done")
-                {
-                    if (Enum.TryParse(userResponse, out userFruits))
-                    {
-                        fruits.Add(userFruits);
-                    }
-                    else
-                    {
-                        Console.WriteLine("\tPlease enter supported values only []");
-                        foreach (string fruitName in Enum.GetNames(typeof(Fruit)))
-                        {
-                            Console.WriteLine(fruitName + " | ");
-                        }
-                    }
-                }
-                else
-                {
-                    isDone = true;
-                }
-            } while (!isDone);
-            //while (userResponse != "done")
-            //{
-            //    Console.WriteLine("\tEnter Fruit: ");
-            //    userResponse = Console.ReadLine();
-            //    fruits.Add(userResponse);
-            //}
-            //if (userResponse == "done")
-            //{
-            //    fruits.Remove("Done");
-            //}
+        //    do
+        //    {
+        //        Console.Write("\tEnter Fruit: ");
+        //        userResponse = Console.ReadLine();
+        //        Enum.TryParse(userResponse, out userFruits);
+        //        if (userResponse != "done")
+        //        {
+        //            if (Enum.TryParse(userResponse, out userFruits))
+        //            {
+        //                fruits.Add(userFruits);
+        //            }
+        //            else
+        //            {
+        //                Console.WriteLine("\tPlease enter supported values only.");
+        //                foreach (string fruitName in Enum.GetNames(typeof(Fruit)))
+        //                {
+        //                    Console.Write(fruitName + " | ");
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            isDone = true;
+        //        }
+        //    } while (!isDone);
+        //    //while (userResponse != "done")
+        //    //{
+        //    //    Console.WriteLine("\tEnter Fruit: ");
+        //    //    userResponse = Console.ReadLine();
+        //    //    fruits.Add(userResponse);
+        //    //}
+        //    //if (userResponse == "done")
+        //    //{
+        //    //    fruits.Remove("Done");
+        //    //}
 
-            DisplayContinuePrompt();
+        //    DisplayContinuePrompt();
 
-            return fruits;
-        }
+        //    return fruits;
+        //}
         #endregion
     }
 }
