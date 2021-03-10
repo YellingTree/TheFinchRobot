@@ -707,16 +707,19 @@ namespace Project_FinchControl
                             if (ledBrightness > 255)
                             {
                                 Console.WriteLine("\tThe Selected value is larger than the max supported value");
+                                DisplayContinuePrompt();
                                 validBrightness = false;
                             }
                             if (ledBrightness < 0)
                             {
                                 Console.WriteLine("\tThe selected value is smaller than the minimum supported value");
+                                DisplayContinuePrompt();
                                 validBrightness = false;
                             }
                             else
                             {
                                 Console.WriteLine($"\tValue set for LED Brightness: {ledBrightness}");
+                                DisplayContinuePrompt();
                                 validBrightness = true;
                             }
                         } while (!validBrightness);
@@ -725,6 +728,7 @@ namespace Project_FinchControl
                     case "c":
                         Console.WriteLine("Please select a timeframe for the wait command in seconds");
                         waitSeconds = ValidateIntValue();
+                        DisplayContinuePrompt();
                         break;
 
                     case "q":
@@ -732,6 +736,7 @@ namespace Project_FinchControl
                         break;
                     default:
                         Console.WriteLine("Unknown value, please select an option from the list [a,b,c,q]");
+                        DisplayContinuePrompt();
                         break;
                 }
             } while (!quitMenu);
