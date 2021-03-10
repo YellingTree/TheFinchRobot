@@ -463,6 +463,7 @@ namespace Project_FinchControl
                         break;
 
                     case "c":
+                        //UserProgrammingDisplayViewCommands();
                         break;
 
                     case "d":
@@ -650,6 +651,19 @@ namespace Project_FinchControl
 
         #region USER PROGRAMMING
 
+        static void UserProgrammingDisplayViewCommands(List<Command> commands)
+        {
+            DisplayScreenHeader("View Commands");
+
+            Console.WriteLine("\tCommand List");
+            Console.WriteLine("\t------------");
+            foreach (Command command in commands)
+            {
+                Console.WriteLine("\t" + command);
+            }
+            DisplayContinuePrompt();
+        }
+
         static (int motorSpeed, int ledBrightness, int waitSeconds) UserProgrammingDisplayGetCommandParameters()
         {
             int motorSpeed = 0;
@@ -679,19 +693,22 @@ namespace Project_FinchControl
                         {
                             Console.Write("\tPlease enter your desired motor speed: ");
                             motorSpeed = ValidateIntValue();
-                            if (motorSpeed > 255)
+                            if (motorSpeed > 255) // Over Max
                             {
                                 Console.WriteLine("\tValue is larger than max supported value, please set a different number");
+                                DisplayContinuePrompt();
                                 validSpeed = false;
                             }
-                            if (motorSpeed < -255)
+                            if (motorSpeed < -255) // Under Min
                             {
                                 Console.WriteLine("\tValue is smaller than the smallest supported number");
+                                DisplayContinuePrompt();
                                 validSpeed = false;
                             }
-                            else
+                            else // Proper Value
                             {
                                 Console.WriteLine($"\tValue set for Motor Speed: {motorSpeed}");
+                                DisplayContinuePrompt();
                                 validSpeed = true;
                             }
                         } while (!validSpeed);
