@@ -691,11 +691,6 @@ namespace Project_FinchControl
                         Console.WriteLine("\tThe finch robot's motors can be set to values from -255 (Full Reverse) to 255 (Full Forward)");
                         do
                         {
-                            Console.SetCursorPosition(0, 12);
-                            for (int i = 0; i < 4; i++)
-                            {
-                                Console.WriteLine();
-                            }
                             Console.Write("\tPlease enter your desired motor speed: ");
                             motorSpeed = ValidateIntValue();
                             if (motorSpeed > 255 || motorSpeed < -255)
@@ -710,24 +705,6 @@ namespace Project_FinchControl
                                 DisplayContinuePrompt();
                                 validSpeed = true;
                             }
-                            //if (motorSpeed > 255) // Over Max
-                            //{
-                            //    Console.WriteLine("\tValue is larger than max supported value, please set a different number");
-                            //    DisplayContinuePrompt();
-                            //    validSpeed = false;
-                            //}
-                            //if (motorSpeed < -255) // Under Min
-                            //{
-                            //    Console.WriteLine("\tValue is smaller than the smallest supported number");
-                            //    DisplayContinuePrompt();
-                            //    validSpeed = false;
-                            //}
-                            //else // Proper Value
-                            //{
-                            //    Console.WriteLine($"\tValue set for Motor Speed: {motorSpeed}");
-                            //    DisplayContinuePrompt();
-                            //    validSpeed = true;
-                            //}
                         } while (!validSpeed);
                         break;
 
@@ -738,21 +715,15 @@ namespace Project_FinchControl
                         {
                             Console.Write("\tPlease enter the desired led brightness: ");
                             ledBrightness = ValidateIntValue();
-                            if (ledBrightness > 255)
+                            if (ledBrightness > 255 || ledBrightness < 0)
                             {
-                                Console.WriteLine("\tThe Selected value is larger than the max supported value");
-                                DisplayContinuePrompt();
-                                validBrightness = false;
-                            }
-                            if (ledBrightness < 0)
-                            {
-                                Console.WriteLine("\tThe selected value is smaller than the minimum supported value");
+                                Console.WriteLine("\tSet value is outside of supported range (0 to 255)");
                                 DisplayContinuePrompt();
                                 validBrightness = false;
                             }
                             else
                             {
-                                Console.WriteLine($"\tValue set for LED Brightness: {ledBrightness}");
+                                Console.WriteLine($"\tSet LED Brightness value: {ledBrightness}");
                                 DisplayContinuePrompt();
                                 validBrightness = true;
                             }
