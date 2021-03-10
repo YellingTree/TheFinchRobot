@@ -691,6 +691,11 @@ namespace Project_FinchControl
                         Console.WriteLine("\tThe finch robot's motors can be set to values from -255 (Full Reverse) to 255 (Full Forward)");
                         do
                         {
+                            Console.SetCursorPosition(0, 12);
+                            for (int i = 0; i < 4; i++)
+                            {
+                                Console.WriteLine();
+                            }
                             Console.Write("\tPlease enter your desired motor speed: ");
                             motorSpeed = ValidateIntValue();
                             if (motorSpeed > 255 || motorSpeed < -255)
